@@ -1,0 +1,5 @@
+IM_CH4_L4_Box только для модели CH4_L4
+IM_M3_L2_Box только для модели M3_L2
+IM_M3_CH4_Labels  общие
+IM_M3_CH4_Light  общие
+IM_TLight_body общие
