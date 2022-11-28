@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Allow to get player transform and vr/desktop mode
+/// </summary>
 public class ModeController : MonoBehaviour
 {
     [SerializeField] private GameObject _desktopPlayer;
