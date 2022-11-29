@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AosSdk.Examples
 {
-    [Core.Utils.AosObject("Привод стрелки 5")]
+    [AosObject("Привод стрелки 5")]
     public class RailSwitch : AosObjectBase
     {
         [SerializeField] private SwitchCap switchCap;

@@ -6,7 +6,6 @@ namespace AosSdk.Core.Interaction
     [RequireComponent(typeof(LineRenderer))]
     public class TeleportArcManager : MonoBehaviour
     {
-        [SerializeField] private AosSDKSettings sdkSettings;
         [SerializeField] private LayerMask excludeLayers;
         [SerializeField] private Gradient validTeleportGradient;
         [SerializeField] private Gradient invalidTeleportGradient;
@@ -74,7 +73,7 @@ namespace AosSdk.Core.Interaction
             
             _arcLastPoint = origin + forward;
             
-            _currentArcPointVelocity = forward * sdkSettings.maxTeleportRadius;
+            _currentArcPointVelocity = forward * Launcher.Instance.SdkSettings.maxTeleportRadius;
 
             while (!_groundDetected && _arcPointsCalculated <= MaxArcPointCount)
             {
@@ -95,7 +94,7 @@ namespace AosSdk.Core.Interaction
                     _arcLastPoint = hit.point;
                     _arcRenderer.positionCount = MaxArcPointCount;
                     
-                    if (hit.collider.CompareTag(sdkSettings.walkableTag))
+                    if (hit.collider.CompareTag(Launcher.Instance.SdkSettings.walkableTag))
                     {
                         RaycastData.TeleportPosition = hit.point;
                         RaycastData.TeleportNormal = hit.normal;

@@ -1,5 +1,5 @@
-using System;
 using AosSdk.Core.Input;
+using AosSdk.Core.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +16,8 @@ namespace AosSdk.Core.PlayerModule.Pointer
 
         private int _screenWidth;
 
+        private bool _isInFocus;
+
         private PointerState PointerState
         {
             set
@@ -30,21 +32,26 @@ namespace AosSdk.Core.PlayerModule.Pointer
             }
         }
 
-        private void Awake()
+        private void Start()
         {
             Canvas = GetComponentInParent<Canvas>();
             CanvasRectTransform = (RectTransform) Canvas.gameObject.transform;
             RectTransform = (RectTransform) transform;
             _image = GetComponent<Image>();
-            
+
             _screenWidth = Screen.width;
-            
+
             UpdateCrossHairSize();
+        }
+
+        private void OnApplicationFocus(bool hasFocus)
+        {
+            _isInFocus = hasFocus;
         }
 
         private void UpdateCrossHairSize()
         {
-            var size = (float) _screenWidth / 100 * sdkSettings.crossHairSizeMultiplier;
+            var size = (float) _screenWidth / 100 * Launcher.Instance.SdkSettings.crossHairSizeMultiplier;
             _image.rectTransform.sizeDelta = new Vector2(size, size);
         }
 
@@ -56,13 +63,18 @@ namespace AosSdk.Core.PlayerModule.Pointer
             }
 
             _screenWidth = Screen.width;
-            
+
             UpdateCrossHairSize();
         }
 
         private void Update()
         {
-            if (!raycaster.TryGetInteractable(sdkSettings.desktopInteractDistance, out _, out _, out var isInteractable) ||
+            if (!_isInFocus)
+            {
+                return;
+            }
+
+            if (!raycaster.TryGetInteractable(Launcher.Instance.SdkSettings.desktopInteractDistance, out _, out _, out var isInteractable) ||
                 isInteractable == null)
             {
                 PointerState = PointerState.Default;

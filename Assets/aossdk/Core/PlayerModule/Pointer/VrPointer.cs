@@ -1,5 +1,6 @@
 ﻿using AosSdk.Core.Input;
 using AosSdk.Core.PlayerModule.VRPlayer.Hands;
+using AosSdk.Core.Utils;
 using UnityEngine;
 
 namespace AosSdk.Core.PlayerModule.Pointer
@@ -11,6 +12,8 @@ namespace AosSdk.Core.PlayerModule.Pointer
         [SerializeField] private HandAnimator handAnimator;
 
         private LineRenderer _lineRenderer;
+
+        private bool _isInFocus;
 
         private PointerState PointerState
         {
@@ -36,18 +39,28 @@ namespace AosSdk.Core.PlayerModule.Pointer
             _lineRenderer.enabled = false;
         }
 
+        private void OnApplicationFocus(bool hasFocus)
+        {
+            _isInFocus = hasFocus;
+        }
+
         private void Update()
         {
-            if (!raycaster.TryGetInteractable(sdkSettings.vrInteractDistance, out var hitPoint, out var hitNormal, out var isInteractable) ||
+            if (!_isInFocus)
+            {
+                return;
+            }
+
+            if (!raycaster.TryGetInteractable(Launcher.Instance.SdkSettings.vrInteractDistance, out var hitPoint, out var hitNormal, out var isInteractable) ||
                 isInteractable == null)
             {
                 PointerState = PointerState.Default;
-                
+
                 if (handAnimator == null)
                 {
                     return;
                 }
-                
+
                 handAnimator.StopPerformingPoint();
                 return;
             }
@@ -70,7 +83,7 @@ namespace AosSdk.Core.PlayerModule.Pointer
                 return;
             }
 
-            handAnimator.PerformPont();
+            handAnimator.PerformPoint();
         }
     }
 }

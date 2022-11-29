@@ -1,13 +1,15 @@
 using AosSdk.Core.Utils;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace AosSdk.Core.PlayerModule
 {
-    [Utils.AosObject(name: "Игрок")]
+    [AosObject(name: "Игрок")]
     public class Player : AosObjectBase, IPlayer
     {
         [SerializeField] private DesktopPlayer.DesktopPlayer _desktopPlayer;
         [SerializeField] private VRPlayer.VRPlayer _vrPlayer;
+        [field: SerializeField] public FadeController FadeController { get; set; }
 
         public static Player Instance { get; private set; }
 
@@ -49,6 +51,25 @@ namespace AosSdk.Core.PlayerModule
         {
             base.OnEnable();
             Instance ??= this;
+
+            SceneManager.sceneLoaded += OnSceneChanged;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneChanged;
+        }
+
+        private void OnSceneChanged(Scene scene, LoadSceneMode mode)
+        {
+            var spawnPoint = FindObjectsOfType<PlayerSpawnPoint>();
+            if (spawnPoint.Length == 0)
+            {
+                Debug.LogError("AOS SDK: No spawn point found on scene!");
+                return;
+            }
+
+            TeleportTo(spawnPoint[0].transform);
         }
 
         public CursorLockMode CursorLockMode { get; set; }
@@ -63,6 +84,7 @@ namespace AosSdk.Core.PlayerModule
                 _vrPlayer.GameObject.SetActive(value == LaunchMode.Vr);
 
                 _currentPlayer.Init();
+                _currentPlayer.FadeController = FadeController;
 
                 Cursor.visible = false;
             }
@@ -92,6 +114,18 @@ namespace AosSdk.Core.PlayerModule
         public void TeleportTo([AosParameter("Имя объекта")] string objectName)
         {
             _currentPlayer.TeleportTo(objectName);
+        }
+
+        [AosAction("Затемнить экран")]
+        public void FadeIn([AosParameter("Скорость затухания")] float speed, [AosParameter("Затухнуть мгновенно?")] bool isInstant)
+        {
+            _currentPlayer.FadeIn(speed, isInstant);
+        }
+
+        [AosAction("Высветлить экран")]
+        public void FadeOut([AosParameter("Длительность высветления")] float speed, [AosParameter("Высветлить мгновенно?")] bool isInstant)
+        {
+            _currentPlayer.FadeOut(speed, isInstant);
         }
 
         public void ForwardTo(Transform target)

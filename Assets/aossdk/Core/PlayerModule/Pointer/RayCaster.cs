@@ -1,7 +1,9 @@
+using System;
 using AosSdk.Core.Input;
 using AosSdk.Core.Interaction;
 using AosSdk.Core.Interaction.Interfaces;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace AosSdk.Core.PlayerModule.Pointer
 {
@@ -23,6 +25,23 @@ namespace AosSdk.Core.PlayerModule.Pointer
         private IClickAble _currentClickAble;
         private IHoverAble _currentHoverAble;
         private IGrabbable _currentGrabbable;
+
+        private void Start()
+        {
+            SceneManager.sceneUnloaded += SceneManagerOnSceneUnloaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneUnloaded -= SceneManagerOnSceneUnloaded;
+        }
+
+        private void SceneManagerOnSceneUnloaded(Scene arg0)
+        {
+            _currentClickAble = null;
+            _currentHoverAble = null;
+            _currentGrabbable = null;
+        }
 
         public bool TryGetInteractable(float interactDistance, out Vector3? hitPoint, out Vector3? hitNormal, out bool? isInteractable)
         {

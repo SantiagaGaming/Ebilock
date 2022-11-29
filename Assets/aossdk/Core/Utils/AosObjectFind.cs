@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace AosSdk.Core.Utils
 {
     public static class AosObjectFind
     {
-        public static AosObjectBase FindAosObjectById(IEnumerable<AosObjectBase> aosObjectBaseList, string guid)
-        {
-            return aosObjectBaseList.FirstOrDefault(aosObject => aosObject.ObjectId == guid);
-        }
+        public static AosObjectBase FindAosObjectById(string guid) => AosObjectBase.AosObjects.FirstOrDefault(aosObject => aosObject.ObjectId == guid);
     }
 }

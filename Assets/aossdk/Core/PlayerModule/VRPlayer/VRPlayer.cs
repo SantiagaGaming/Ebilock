@@ -1,13 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using AosSdk.Core.Interaction;
 using AosSdk.Core.Interaction.Interfaces;
 using AosSdk.Core.PlayerModule.Pointer;
+using AosSdk.Core.Utils;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.XR.Management;
 
 namespace AosSdk.Core.PlayerModule.VRPlayer
 {
+    [RequireComponent(typeof(XROrigin), typeof(CharacterController))]
     public class VRPlayer : MonoBehaviour, IPlayer
     {
         [SerializeField] private RayCaster[] handRayCasters;
@@ -16,7 +19,9 @@ namespace AosSdk.Core.PlayerModule.VRPlayer
         [SerializeField] private Camera _eventCamera;
         [SerializeField] private Camera _playerCamera;
 
-        public XROrigin xrOrigin;
+        private CharacterController _characterController;
+        private XROrigin _xrOrigin;
+        private FadeController _fadeController;
 
         public bool CanMove { get; set; } = true;
         public bool CanRun { get; set; } = true;
@@ -33,14 +38,32 @@ namespace AosSdk.Core.PlayerModule.VRPlayer
             set { }
         }
 
+        public FadeController FadeController
+        {
+            get => _fadeController;
+            set
+            {
+                _fadeController = value;
+
+                var fadeControllerTransform = _fadeController.transform;
+
+                fadeControllerTransform.parent = _playerCamera.transform;
+                fadeControllerTransform.localPosition = new Vector3(0, 0, _playerCamera.nearClipPlane + 0.01f);
+            }
+        }
+
         public void Init()
         {
+            _characterController = GetComponent<CharacterController>();
+            _xrOrigin = GetComponent<XROrigin>();
+
             StartCoroutine(InitializeOpenXRRoutine());
         }
 
         public void TeleportTo(Transform target)
         {
             var targetPosition = target.position;
+            _xrOrigin.transform.rotation = target.rotation;
             TeleportTo(targetPosition.x, targetPosition.y, targetPosition.z);
         }
 
@@ -51,7 +74,7 @@ namespace AosSdk.Core.PlayerModule.VRPlayer
                 return;
             }
 
-            xrOrigin.MoveCameraToWorldLocation(new Vector3(x, y, z) + xrOrigin.Origin.transform.up * xrOrigin.CameraInOriginSpaceHeight);
+            _xrOrigin.MoveCameraToWorldLocation(new Vector3(x, y, z) + _xrOrigin.Origin.transform.up * _xrOrigin.CameraInOriginSpaceHeight);
         }
 
         public void TeleportTo(string objectName)
@@ -80,7 +103,7 @@ namespace AosSdk.Core.PlayerModule.VRPlayer
 
         public void EnableCamera(bool value)
         {
-            xrOrigin.Camera.enabled = value;
+            _xrOrigin.Camera.enabled = value;
         }
 
         public void EnableRayCaster(bool value)
@@ -102,6 +125,8 @@ namespace AosSdk.Core.PlayerModule.VRPlayer
             XRGeneralSettings.Instance.Manager.StartSubsystems();
 
             _eventCamera.fieldOfView = _playerCamera.fieldOfView;
+
+            UpdateCharacterController();
         }
 
         private void OnDestroy()
@@ -160,6 +185,48 @@ namespace AosSdk.Core.PlayerModule.VRPlayer
 
         public void SetCrouchState(bool state)
         {
+        }
+
+        private void Update()
+        {
+            if (Launcher.Instance.SdkSettings.vrMovementType != VrMovementType.Locomotion)
+            {
+                return;
+            }
+
+            UpdateCharacterController();
+        }
+
+        protected virtual void UpdateCharacterController()
+        {
+            if (_xrOrigin == null || _characterController == null)
+            {
+                return;
+            }
+
+            var height = _xrOrigin.CameraInOriginSpaceHeight;
+
+            var center = Launcher.Instance.SdkSettings.vrHeadCollisionType switch
+            {
+                VrHeadCollisionType.Collide => _xrOrigin.CameraInOriginSpacePos,
+                VrHeadCollisionType.FadeOut => Vector3.zero,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            center.y = height / 2f + _characterController.skinWidth;
+
+            _characterController.height = height;
+            _characterController.center = center;
+        }
+
+        public void FadeIn(float speed, bool isInstant)
+        {
+            StartCoroutine(FadeController.FadeIn(speed, isInstant));
+        }
+
+        public void FadeOut(float speed, bool isInstant)
+        {
+            StartCoroutine(FadeController.FadeOut(speed, isInstant));
         }
     }
 }

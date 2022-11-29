@@ -1,4 +1,6 @@
 using System;
+using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 namespace AosSdk.Core.Utils
 {
@@ -42,6 +44,7 @@ namespace AosSdk.Core.Utils
         public string methodName;
         public AosParameterType[] parameters;
         public float delay;
+
         public object[] CastedParameters;
 
         public void CastParameters()
@@ -69,11 +72,49 @@ namespace AosSdk.Core.Utils
                     case "string":
                         CastedParameters[i] = value;
                         break;
+                    case "JObject":
+                        CastedParameters[i] = TryParseJsonObject(value);
+                        break;
+                    case "JArray":
+                        CastedParameters[i] = TryParseJsonArray(value);
+                        break;
                     default:
                         CastedParameters[i] = null;
                         break;
                 }
             }
+        }
+
+        private object TryParseJsonObject(string json)
+        {
+            object result = null;
+
+            try
+            {
+                result = JObject.Parse(json);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
+
+            return result;
+        }
+
+        private object TryParseJsonArray(string json)
+        {
+            object result = null;
+
+            try
+            {
+                result = JArray.Parse(json);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
+
+            return result;
         }
     }
 

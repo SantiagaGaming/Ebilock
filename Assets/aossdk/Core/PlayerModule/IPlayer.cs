@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using AosSdk.Core.Utils;
+using UnityEngine;
 
 namespace AosSdk.Core.PlayerModule
 {
@@ -28,8 +29,14 @@ namespace AosSdk.Core.PlayerModule
 
         void SetCrouchState(bool state);
 
+        void FadeIn(float speed, bool isInstant);
+
+        void FadeOut(float speed, bool isInstant);
+
         Camera EventCamera { get; set; }
 
         GameObject GameObject { get; set; }
+
+        FadeController FadeController { get; set; }
     }
 }

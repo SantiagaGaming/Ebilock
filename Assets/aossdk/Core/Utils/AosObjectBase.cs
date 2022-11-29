@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using AosSdk.Core.Utils.EditorUtils;
 using UnityEngine;
 
 namespace AosSdk.Core.Utils
@@ -11,6 +10,8 @@ namespace AosSdk.Core.Utils
     public class AosObjectBase : MonoBehaviour
     {
         [field: SerializeField] public string ObjectId { get; set; } = string.Empty;
+
+        public static readonly List<AosObjectBase> AosObjects = new List<AosObjectBase>();
 
         public delegate void AosEventHandler();
 
@@ -47,6 +48,8 @@ namespace AosSdk.Core.Utils
 
         public virtual void OnEnable()
         {
+            AosObjects.Add(this);
+
             foreach (var eventInfo in GetType().GetEvents())
             {
                 if (!(Attribute.GetCustomAttribute(eventInfo, typeof(AosEvent)) is AosEvent))
@@ -78,7 +81,7 @@ namespace AosSdk.Core.Utils
             _commandQueue.Add(command);
         }
 
-        private void FixedUpdate()
+        public virtual void FixedUpdate()
         {
             if (_commandQueue.Count <= 0)
             {
@@ -86,7 +89,7 @@ namespace AosSdk.Core.Utils
             }
 
             StartCoroutine(ExecuteCommandRoutine(_commandQueue[0]));
-            // TODO stop coroutine if new is invoking
+
             _commandQueue.RemoveAt(0);
         }
 

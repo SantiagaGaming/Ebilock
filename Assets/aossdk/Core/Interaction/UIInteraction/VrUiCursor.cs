@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AosSdk.Core.PlayerModule;
 using AosSdk.Core.Utils;
 using UnityEngine;
@@ -11,13 +10,15 @@ namespace AosSdk.Core.Interaction.UIInteraction
     public class VrUiCursor : UiCursor
     {
         [SerializeField] private InputActionReference _triggerAction;
-        [SerializeField] private AosSDKSettings _sdkSettings;
+        private bool _isOverInteractableCanvas;
 
         private Vector3 CurrentHitPosition { get; set; }
 
         private Transform _thisTransform;
 
-        [SerializeField] private bool _isOverInteractableCanvas;
+        private bool _isMouseDown;
+
+        private bool _previousMouseLeftButtonState;
 
         private void Start()
         {
@@ -26,7 +27,7 @@ namespace AosSdk.Core.Interaction.UIInteraction
 
         protected override void UpdateMouseState()
         {
-            if (!_isOverInteractableCanvas)
+            if (VirtualMouse == null || !_isOverInteractableCanvas)
             {
                 return;
             }
@@ -34,7 +35,8 @@ namespace AosSdk.Core.Interaction.UIInteraction
             InputState.Change(VirtualMouse.position, Player.Instance.EventCamera.WorldToScreenPoint(CurrentHitPosition));
 
             VirtualMouse.CopyState<MouseState>(out var mouseState);
-            mouseState.WithButton(MouseButton.Left, _triggerAction.action.ReadValue<float>() > 0f);
+
+            mouseState = mouseState.WithButton(MouseButton.Left, _triggerAction.action.ReadValue<float>() > .5f);
             InputState.Change(VirtualMouse, mouseState);
         }
 
@@ -45,21 +47,19 @@ namespace AosSdk.Core.Interaction.UIInteraction
 
         private void GetCurrentHitPosition()
         {
-            _isOverInteractableCanvas = false;
-
             var hits = new RaycastHit[1];
-            var hitCount = Physics.RaycastNonAlloc(transform.position, transform.TransformDirection(Vector3.forward), hits, _sdkSettings.vrInteractDistance * 100,
+            var hitCount = Physics.RaycastNonAlloc(transform.position, transform.TransformDirection(Vector3.forward), hits, Launcher.Instance.SdkSettings.vrInteractDistance,
                 ~LayerMask.NameToLayer("UI"));
 
             if (hitCount == 0)
             {
+                _isOverInteractableCanvas = false;
                 return;
             }
 
-            var (candidateHit, isHitValid) = GetValidHit(hits);
-
-            if (!isHitValid)
+            if (!GetValidHit(hits, out var candidateHit))
             {
+                _isOverInteractableCanvas = false;
                 return;
             }
 
@@ -67,20 +67,24 @@ namespace AosSdk.Core.Interaction.UIInteraction
 
             CurrentHitPosition = candidateHit.point;
 
-            Debug.DrawLine(_thisTransform.position, CurrentHitPosition, Color.cyan);
+            Debug.DrawLine(_thisTransform.position, CurrentHitPosition, Color.red);
         }
 
-        private static (RaycastHit, bool) GetValidHit(IEnumerable<RaycastHit> hits)
+        private static bool GetValidHit(IEnumerable<RaycastHit> hits, out RaycastHit validHit)
         {
             foreach (var hit in hits)
             {
-                if (hit.collider.gameObject.GetComponent<InteractableCanvas>())
+                if (!hit.collider.gameObject.GetComponent<InteractableCanvas>())
                 {
-                    return (hit, true);
+                    continue;
                 }
+
+                validHit = hit;
+                return true;
             }
 
-            return new ValueTuple<RaycastHit, bool>(new RaycastHit(), false);
+            validHit = new RaycastHit();
+            return false;
         }
     }
 }

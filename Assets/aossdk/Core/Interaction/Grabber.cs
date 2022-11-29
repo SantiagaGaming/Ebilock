@@ -16,7 +16,6 @@ namespace AosSdk.Core.Interaction
     {
         [SerializeField] private SharedInput sharedInput;
         [SerializeField] private Renderer handRenderer;
-        [SerializeField] private AosSDKSettings sdkSettings;
 
         private GameObject _currentGrabbedGameObject;
         private IGrabbable _currentGrabbable;
@@ -99,15 +98,15 @@ namespace AosSdk.Core.Interaction
 
             _currentInteractHand = interactHand;
 
-            _currentMinimumGrabbedZoomLevel = _currentZoomOverrider ? _currentZoomOverrider.minZoomDistance : sdkSettings.desktopGrabMinZoomDistance;
-            _currentMaximumGrabbedZoomLevel = _currentZoomOverrider ? _currentZoomOverrider.maxZoomDistance : sdkSettings.desktopGrabMaxZoomDistance;
+            _currentMinimumGrabbedZoomLevel = _currentZoomOverrider ? _currentZoomOverrider.minZoomDistance : Launcher.Instance.SdkSettings.desktopGrabMinZoomDistance;
+            _currentMaximumGrabbedZoomLevel = _currentZoomOverrider ? _currentZoomOverrider.maxZoomDistance : Launcher.Instance.SdkSettings.desktopGrabMaxZoomDistance;
 
             if (interactHand == InteractHand.Desktop)
             {
                 _thisTransform.localPosition = Vector3.forward * (_currentMaximumGrabbedZoomLevel - _currentMinimumGrabbedZoomLevel) / 2;
             }
 
-            if (!handRenderer || !sdkSettings.hideHandOnGrab)
+            if (!handRenderer || !Launcher.Instance.SdkSettings.hideHandOnGrab)
             {
                 return;
             }

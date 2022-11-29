@@ -10,7 +10,6 @@ namespace AosSdk.Core.PlayerModule.DesktopPlayer
     [RequireComponent(typeof(CharacterController))]
     public class DesktopPlayer : MonoBehaviour, IPlayer
     {
-        [SerializeField] private AosSDKSettings sdkSettings;
         [SerializeField] private CharacterController characterController;
         [SerializeField] private RayCaster rayCaster;
         [SerializeField] private Camera playerCamera;
@@ -28,6 +27,7 @@ namespace AosSdk.Core.PlayerModule.DesktopPlayer
         public bool CanMove { get; set; } = true;
         public bool CanRun { get; set; } = true;
 
+
         public Camera EventCamera
         {
             get => playerCamera;
@@ -38,6 +38,20 @@ namespace AosSdk.Core.PlayerModule.DesktopPlayer
         {
             get => gameObject;
             set { }
+        }
+
+        public FadeController FadeController
+        {
+            get => _fadeController;
+            set
+            {
+                _fadeController = value;
+
+                var fadeControllerTransform = _fadeController.transform;
+
+                fadeControllerTransform.parent = playerCamera.transform;
+                fadeControllerTransform.localPosition = new Vector3(0, 0, playerCamera.nearClipPlane + 0.01f);
+            }
         }
 
         private Transform _playerTransform;
@@ -57,6 +71,8 @@ namespace AosSdk.Core.PlayerModule.DesktopPlayer
         private Transform _playerCameraTransform;
 
         private Transform _forwardToTransform;
+
+        private FadeController _fadeController;
 
         public void Init()
         {
@@ -111,6 +127,7 @@ namespace AosSdk.Core.PlayerModule.DesktopPlayer
         public void TeleportTo(Transform target)
         {
             var targetPosition = target.position;
+            _playerTransform.rotation = target.rotation;
             TeleportTo(targetPosition.x, targetPosition.y, targetPosition.z);
         }
 
@@ -225,11 +242,21 @@ namespace AosSdk.Core.PlayerModule.DesktopPlayer
             }
         }
 
+        public void FadeIn(float speed, bool isInstant)
+        {
+            StartCoroutine(FadeController.FadeIn(speed, isInstant));
+        }
+
+        public void FadeOut(float speed, bool isInstant)
+        {
+            StartCoroutine(FadeController.FadeOut(speed, isInstant));
+        }
+
         private void Update()
         {
             try
             {
-                if (sdkSettings.movementType == DesktopMovementType.Teleport)
+                if (Launcher.Instance.SdkSettings.desktopMovementType == DesktopMovementType.Teleport)
                 {
                     return;
                 }
@@ -239,7 +266,7 @@ namespace AosSdk.Core.PlayerModule.DesktopPlayer
 
                 var isRunning = _isRunning && CanRun;
 
-                var speedMultiplier = isRunning ? sdkSettings.runSpeed : sdkSettings.walkSpeed;
+                var speedMultiplier = isRunning ? Launcher.Instance.SdkSettings.runSpeed : Launcher.Instance.SdkSettings.walkSpeed;
 
                 var curSpeedX = CanMove ? speedMultiplier * _horizontalInput.y : 0;
                 var curSpeedY = CanMove ? speedMultiplier * _horizontalInput.x : 0;
@@ -249,7 +276,7 @@ namespace AosSdk.Core.PlayerModule.DesktopPlayer
 
                 if (_isJumping && CanMove && characterController.isGrounded && !_isCrouching)
                 {
-                    _moveDirection.y = sdkSettings.jumpSpeed;
+                    _moveDirection.y = Launcher.Instance.SdkSettings.jumpSpeed;
                     _isJumping = false;
                 }
                 else
@@ -273,7 +300,7 @@ namespace AosSdk.Core.PlayerModule.DesktopPlayer
 
                 if (!characterController.isGrounded)
                 {
-                    _moveDirection.y -= sdkSettings.gravity * Time.deltaTime;
+                    _moveDirection.y -= Launcher.Instance.SdkSettings.gravity * Time.deltaTime;
                 }
 
                 if (!Physics.Raycast(transform.position + _moveDirection * characterController.skinWidth, -transform.up,
@@ -282,7 +309,7 @@ namespace AosSdk.Core.PlayerModule.DesktopPlayer
                     return;
                 }
 
-                if (!hit.collider.CompareTag(sdkSettings.walkableTag))
+                if (!hit.collider.CompareTag(Launcher.Instance.SdkSettings.walkableTag))
                 {
                     return;
                 }
@@ -293,14 +320,14 @@ namespace AosSdk.Core.PlayerModule.DesktopPlayer
             {
                 if (Player.Instance.CursorLockMode != CursorLockMode.Locked)
                 {
-                    _rotationX += -_mouseInput.y * sdkSettings.mouseLookSpeed;
+                    _rotationX += -_mouseInput.y * Launcher.Instance.SdkSettings.mouseLookSpeed;
 
-                    _rotationX = Mathf.Clamp(_rotationX, -sdkSettings.mouseLookXLimit, sdkSettings.mouseLookXLimit);
+                    _rotationX = Mathf.Clamp(_rotationX, -Launcher.Instance.SdkSettings.mouseLookXLimit, Launcher.Instance.SdkSettings.mouseLookXLimit);
 
                     _playerCameraTransform.localPosition =
                         new Vector3(0, characterController.center.y + characterController.height / 2, 0);
                     _playerCameraTransform.localRotation = Quaternion.Euler(_rotationX, 0, 0);
-                    transform.rotation *= Quaternion.Euler(0, _mouseInput.x * sdkSettings.mouseLookSpeed, 0);
+                    transform.rotation *= Quaternion.Euler(0, _mouseInput.x * Launcher.Instance.SdkSettings.mouseLookSpeed, 0);
                 }
             }
         }

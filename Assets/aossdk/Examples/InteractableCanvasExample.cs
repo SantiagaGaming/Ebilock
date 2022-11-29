@@ -19,8 +19,10 @@ namespace AosSdk.Examples
         [SerializeField] private TMP_InputField _inputField;
         [SerializeField] private ScrollRect _scrollRect;
 
-        private new void OnEnable()
+        public override void OnEnable()
         {
+            base.OnEnable();
+            
             _lockButton.onClick.AddListener(LockPlayer);
             _exitButton.onClick.AddListener(ExitButtonClicked);
             _buttonOne.onClick.AddListener(ButtonOneClicked);
@@ -40,17 +42,17 @@ namespace AosSdk.Examples
             _dropdown.onValueChanged.RemoveAllListeners();
             _inputField.onEndEdit.RemoveAllListeners();
         }
-        
+
         private void LockPlayer()
         {
             var playerInstance = Player.Instance;
-            
+
             playerInstance.TeleportTo(_playerLockedAnchor);
             playerInstance.CanMove = false;
             playerInstance.CursorLockMode = CursorLockMode.Locked;
             playerInstance.ForwardTo(transform);
         }
-        
+
         private void ExitButtonClicked()
         {
             AppendToLog($"Нажата кнопка выхода");

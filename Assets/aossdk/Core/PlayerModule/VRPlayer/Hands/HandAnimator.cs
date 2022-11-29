@@ -40,7 +40,7 @@ namespace AosSdk.Core.PlayerModule.VRPlayer.Hands
             animator.SetTrigger(EndPoint);
         }
 
-        public void PerformPont()
+        public void PerformPoint()
         {
             if (_useAnimationHandler.IsInUseState || _teleportAnimationHandler.IsInTeleportState || _pointAnimationHandler.IsInPointState)
             {

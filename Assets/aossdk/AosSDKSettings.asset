@@ -14,17 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   launchMode: 0
   socketPort: 8080
-  movementType: 2
+  vrMovementType: 0
+  locomotionMovementSpeed: 1
+  vrHeadCollisionType: 0
+  desktopMovementType: 0
   teleportArcOffset: {x: 0, y: -0.2, z: 0}
   walkSpeed: 4
   runSpeed: 8
   jumpSpeed: 8
   gravity: 20
-  mouseLookSpeed: 0.1
+  mouseLookSpeed: 0.35
   mouseLookXLimit: 80
   crossHairSizeMultiplier: 1
-  vrInteractDistance: 1.5
-  desktopInteractDistance: 1.5
+  vrInteractDistance: 0.6
+  desktopInteractDistance: 2
   desktopGrabMinZoomDistance: 0.5
   desktopGrabMaxZoomDistance: 2
   hideHandOnGrab: 1

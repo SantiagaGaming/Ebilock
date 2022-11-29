@@ -28,8 +28,6 @@ namespace AosSdk.Core.PlayerModule.VRPlayer
             var input = snapTurnAction.action.ReadValue<Vector2>();
 
             xrOrigin.RotateAroundCameraUsingOriginUp(snapTurnDelta * (input.x > 0 ? 1 : -1));
-            
-            //Debug.Log("SnapTurnActionOnPerformed"); TODO remove
         }
     }
 }

@@ -6,25 +6,24 @@ namespace AosSdk.Core.PlayerModule.Pointer
 {
     public class Pointer : MonoBehaviour
     {
-        [SerializeField] protected AosSDKSettings sdkSettings;
         [SerializeField] protected RayCaster raycaster;
-        
+
         internal PointerState CurrentState = PointerState.Unknown;
 
-        internal Color GetPointerColor(PointerState state)
+        internal static Color GetPointerColor(PointerState state)
         {
-            var colorToSet = sdkSettings.defaultPointerColor;
+            var colorToSet = Launcher.Instance.SdkSettings.defaultPointerColor;
 
             switch (state)
             {
                 case PointerState.Default:
-                    colorToSet = sdkSettings.defaultPointerColor;
+                    colorToSet = Launcher.Instance.SdkSettings.defaultPointerColor;
                     break;
                 case PointerState.Hovered:
-                    colorToSet = sdkSettings.hoveredPointerColor;
+                    colorToSet = Launcher.Instance.SdkSettings.hoveredPointerColor;
                     break;
                 case PointerState.Disabled:
-                    colorToSet = sdkSettings.disabledPointerColor;
+                    colorToSet = Launcher.Instance.SdkSettings.disabledPointerColor;
                     break;
                 case PointerState.Unknown:
                 default:
