@@ -15,6 +15,7 @@ public abstract class BaseObject : MonoBehaviour, IClickAble, IHoverAble
         if (SceneAOSObject == null)
             return;
         SceneAOSObject.InvokeOnClick();
+        InstanceHandler.Instance.ReactionInfoWindow.HidetextHelper();
     }
     public virtual void OnHoverIn(InteractHand interactHand)
     {

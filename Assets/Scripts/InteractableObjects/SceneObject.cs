@@ -27,6 +27,7 @@ public class SceneObject : BaseObject
         {
             InstanceHandler.Instance.ObjectsInfoWindow.SetPosition(HelperPos);
             InstanceHandler.Instance.ObjectsInfoWindow.ShowWindowWithText(HelperName);
+
         }
         EnableOutlines(true);
      }
