@@ -25,14 +25,9 @@ public class LocationNamesHandler
         _locationNames.Add("sv_m3");
         _locationNames.Add("sv_ch1");
     }
-    
+
     public bool ChekLacationNames(string locationName)
     {
-        var temp = _locationNames.FirstOrDefault(item => item == locationName);
-        if (temp != null)
-
-            return true;
-
-        return false;
+       return _locationNames.Any(item => item == locationName);
     }
 }
