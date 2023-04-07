@@ -42,6 +42,8 @@ public class SceneObject : BaseObject
             GetComponent<Collider>().enabled = value;
         if (GetComponent<SpriteRenderer>() != null)
             GetComponent<SpriteRenderer>().enabled = value;
+        if (GetComponentInChildren<SpriteRenderer>() != null)
+            GetComponentInChildren<SpriteRenderer>().enabled = value;
     }
     public void SetHelperName(string value)
     {

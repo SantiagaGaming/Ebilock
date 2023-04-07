@@ -24,6 +24,13 @@ public class Teleporter : MonoBehaviour
     [SerializeField] private Transform _hallFromShnPosition;
     [SerializeField] private Transform _hallFromRelay1Position;
     [SerializeField] private Transform _hallFromRelay2Position;
+    [SerializeField] private Transform _str1Position;
+    [SerializeField] private Transform _str3Position;
+    [SerializeField] private Transform _sezd1_3Position;
+    [SerializeField] private Transform _str11Position;
+    [SerializeField] private Transform _svNPosition;
+    [SerializeField] private Transform _svM3Position;
+    [SerializeField] private Transform _svCh1Position;
     [Space]
     [SerializeField] private CameraFadeIn _cameraFadeIn;
     [SerializeField] private ModeController _modeController;
@@ -94,10 +101,40 @@ public class Teleporter : MonoBehaviour
             {
                 TeleportPlayer(_hallFeedPosition);
             }
-            if (_previousLocation != locationName)
-            {
-                _previousLocation = locationName;
-            }
+
+        }
+        else if (locationName == "str1")
+        {
+            TeleportPlayer(_str1Position);
+        }
+        else if (locationName == "str3")
+        {
+            TeleportPlayer(_str3Position);
+        }
+        else if (locationName == "sezd1-3")
+        {
+            TeleportPlayer(_sezd1_3Position);
+        }
+        else if (locationName == "str11")
+        {
+            TeleportPlayer(_str11Position);
+        }
+        else if (locationName == "sv_N")
+        {
+            TeleportPlayer(_svNPosition);
+        }
+        else if (locationName == "sv_m3")
+        {
+            TeleportPlayer(_svM3Position);
+        }
+        else if (locationName == "sv_ch1")
+        {
+            TeleportPlayer(_svCh1Position);
+        }
+
+        if (_previousLocation != locationName)
+        {
+            _previousLocation = locationName;
         }
     }
     public void TeleportToMenu()
