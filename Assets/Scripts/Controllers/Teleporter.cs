@@ -38,15 +38,16 @@ public class Teleporter : MonoBehaviour
     private Vector3 _currentPlayerPosition = new Vector3();
 
     private string _previousLocation;
+
+    private LocationNamesHandler _locationNamesHandler = new LocationNamesHandler();    
     public void Teleport(string locationName)
     {
    
         OnTeleportEnd?.Invoke(locationName);
         if (locationName == "start")
             TeleportPlayer(_menuPosition);
-        if (locationName == "hall" || locationName == "r_dsp" || locationName == "r_shn" || locationName == "relay1" || locationName == "relay2" || locationName == "field" || locationName == "feed" 
-            || locationName == "str1"|| locationName == "str3"|| locationName == "sezd1-3"|| locationName == "str11"|| locationName == "sv_N"|| locationName == "sv_m3"|| locationName == "sv_ch1")
-        {
+        if (_locationNamesHandler.ChekLacationNames(locationName))
+        { 
             if (_previousLocation == locationName)
                 return;
             Debug.Log(locationName + "From teleport Loc " + _previousLocation);
