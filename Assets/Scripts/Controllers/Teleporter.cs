@@ -44,11 +44,12 @@ public class Teleporter : MonoBehaviour
         OnTeleportEnd?.Invoke(locationName);
         if (locationName == "start")
             TeleportPlayer(_menuPosition);
-         if (locationName == "hall" || locationName == "r_dsp" || locationName == "r_shn" || locationName == "relay1"||  locationName == "relay2" || locationName == "field" || locationName == "feed")
+        if (locationName == "hall" || locationName == "r_dsp" || locationName == "r_shn" || locationName == "relay1" || locationName == "relay2" || locationName == "field" || locationName == "feed" 
+            || locationName == "str1"|| locationName == "str3"|| locationName == "sezd1-3"|| locationName == "str11"|| locationName == "sv_N"|| locationName == "sv_m3"|| locationName == "sv_ch1")
         {
             if (_previousLocation == locationName)
                 return;
-            Debug.Log(locationName + "From teleport");
+            Debug.Log(locationName + "From teleport Loc " + _previousLocation);
             if (locationName == "hall" && _previousLocation == "r_dsp")
             {
                 TeleportPlayer(_hallFromDspPosition);
@@ -101,41 +102,39 @@ public class Teleporter : MonoBehaviour
             {
                 TeleportPlayer(_hallFeedPosition);
             }
-
-        }
-        else if (locationName == "str1")
-        {
-            TeleportPlayer(_str1Position);
-        }
-        else if (locationName == "str3")
-        {
-            TeleportPlayer(_str3Position);
-        }
-        else if (locationName == "sezd1-3")
-        {
-            TeleportPlayer(_sezd1_3Position);
-        }
-        else if (locationName == "str11")
-        {
-            TeleportPlayer(_str11Position);
-        }
-        else if (locationName == "sv_N")
-        {
-            TeleportPlayer(_svNPosition);
-        }
-        else if (locationName == "sv_m3")
-        {
-            TeleportPlayer(_svM3Position);
-        }
-        else if (locationName == "sv_ch1")
-        {
-            TeleportPlayer(_svCh1Position);
-        }
-
-        if (_previousLocation != locationName)
-        {
-            _previousLocation = locationName;
-        }
+            else if (locationName == "str1")
+            {
+                TeleportPlayer(_str1Position);
+            }
+            else if (locationName == "str3")
+            {
+                TeleportPlayer(_str3Position);
+            }
+            else if (locationName == "sezd1-3")
+            {
+                TeleportPlayer(_sezd1_3Position);
+            }
+            else if (locationName == "str11")
+            {
+                TeleportPlayer(_str11Position);
+            }
+            else if (locationName == "sv_N")
+            {
+                TeleportPlayer(_svNPosition);
+            }
+            else if (locationName == "sv_m3")
+            {
+                TeleportPlayer(_svM3Position);
+            }
+            else if (locationName == "sv_ch1")
+            {
+                TeleportPlayer(_svCh1Position);
+            }
+            if (_previousLocation != locationName)
+            {
+                _previousLocation = locationName;
+            }
+        }       
     }
     public void TeleportToMenu()
     {

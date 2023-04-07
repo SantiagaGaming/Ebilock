@@ -46,14 +46,12 @@ public class InstanceHandler : MonoBehaviour
     public void AddAnimationObjectToList(ObjectWithAnimation obj)
     {
         _animationObjectList.Add(obj);
-
     }
     public void PlayCloseAnimationForAllObjects()
     {
         foreach (var item in _animationObjectList)
         {
             item.PlayScriptableAnimationClose();
-            Debug.Log(item.name +  "          Close");
         }
         _animationObjectList.Clear();
     }

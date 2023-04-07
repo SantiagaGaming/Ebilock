@@ -43,7 +43,11 @@ public class SceneObject : BaseObject
         if (GetComponent<SpriteRenderer>() != null)
             GetComponent<SpriteRenderer>().enabled = value;
         if (GetComponentInChildren<SpriteRenderer>() != null)
-            GetComponentInChildren<SpriteRenderer>().enabled = value;
+        {
+            var child = GetComponentInChildren<SpriteRenderer>();
+            if (child.GetComponent<BackButton>() == null)
+                child.enabled = value;
+        }
     }
     public void SetHelperName(string value)
     {
