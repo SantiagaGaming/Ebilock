@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class TriggerObject : SceneObject
 {
-    [SerializeField] private SceneAosObject _exitObject;
+    [SerializeField] private bool _exitTriger;
     protected override void Start()
     {
         base.Start();
@@ -16,20 +16,25 @@ public class TriggerObject : SceneObject
     }
     private void OnTriggerEnter(Collider col)
         {
-            var aosObject = col.GetComponentInParent<AosObjectBase>();
-            if (!aosObject)
-                return;
+        if (_exitTriger)
+            return;
+        DetecoCollision(col);
+    }
+    private void OnTriggerExit(Collider col)
+    {
+        if (!_exitTriger)
+            return;
+        DetecoCollision(col);
+    }
+    private void DetecoCollision(Collider col)
+    {
+        var aosObject = col.GetComponentInParent<AosObjectBase>();
+        if (!aosObject)
+            return;
         SceneAOSObject = GetComponent<SceneAosObject>();
         if (SceneAOSObject != null)
         {
             SceneAOSObject.InvokeOnClick();
         }
-    }
-    private void OnTriggerExit(Collider col)
-    {
-            var aosObject = col.GetComponentInParent<AosObjectBase>();
-            if (!aosObject)
-                return;
-            _exitObject.InvokeOnClick();
     }
 }

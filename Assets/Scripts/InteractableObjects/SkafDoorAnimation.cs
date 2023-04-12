@@ -16,7 +16,7 @@ public class SkafDoorAnimation : ObjectWithAnimation
     private IEnumerator RotateDoorOpen()
     {
         int y = 0;
-        EnableObject(false);
+
         if (_side)
         {
             while (y < 90)
@@ -58,6 +58,6 @@ public class SkafDoorAnimation : ObjectWithAnimation
                 yield return new WaitForSeconds(0.01f);
             }
         }
-        EnableObject(true);
+
     }
 }

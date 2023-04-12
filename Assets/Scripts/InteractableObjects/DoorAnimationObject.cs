@@ -6,11 +6,7 @@ using UnityEngine;
 public class DoorAnimationObject : ObjectWithAnimation
 {
     [SerializeField] private bool _side;
-    public override void OnClicked(InteractHand interactHand)
-    {
-        if (NonAOS)
-            PlayScriptableAnimationOpen();
-    }
+
     public override void PlayScriptableAnimationOpen()
     {
         StartCoroutine(RotateDoor());
@@ -18,7 +14,6 @@ public class DoorAnimationObject : ObjectWithAnimation
     private IEnumerator RotateDoor()
     {
         int y = 0;
-        EnableObject(false);
         if(_side)
         {
             while (y < 90)
