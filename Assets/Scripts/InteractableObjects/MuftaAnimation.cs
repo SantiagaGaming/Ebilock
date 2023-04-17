@@ -9,7 +9,7 @@ using AosSdk.Core.PlayerModule;
 public class MuftaAnimation : ObjectWithAnimation
 {
     [SerializeField] private GameObject _roof;
-    private float _roofTransfromBottom = 0.44f;
+    [SerializeField]private float _roofTransfromBottom = 0.44f;
     private float _roofTransfromTop = 0.65f;
 
     private bool _isAnimated = false;

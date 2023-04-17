@@ -16,6 +16,7 @@ public class BackButton : BaseButton
         InstanceHandler.Instance.PlayCloseAnimationForAllObjects();
         InstanceHandler.Instance.BackButtonsActivator.SetCurrentBackButton(null);
         InstanceHandler.Instance.ReactionInfoWindow.HidetextHelper();
+        InstanceHandler.Instance.MeasureButtonsActivator.DeactivateAllButtons();
         //ShupController shup = FindObjectOfType<ShupController>();
         //shup.ResetShupPosition();
         //AOSColliderActivator.Instance.CanTouch = true;

@@ -23,7 +23,13 @@ public class InstanceHandler : MonoBehaviour
     [SerializeField] private MainMenuCanvas _mainMenuCanvas;
     [SerializeField] private Diet _diet;
     [SerializeField] private ShupPositionChanger _shupPositionChanger;
+    [SerializeField] private Ampermetr _ampermetr;
+    [SerializeField] private ShupController _shupController;
+    [SerializeField] private PointerDevice _pointerDevice;
 
+    public PointerDevice PointerDevice => _pointerDevice;
+    public ShupController ShupController => _shupController;
+    public Ampermetr AmperMetr => _ampermetr;
     public AOSColliderActivator AOSColliderActivator => _aosColliderActivator;
     public MovingButtonsController MovingButtonsController => _movinButtonsController;
     public MovingTextWindow ObjectsInfoWindow => _objectsInfoWindow;

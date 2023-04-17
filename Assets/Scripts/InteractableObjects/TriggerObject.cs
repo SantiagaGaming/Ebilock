@@ -25,6 +25,7 @@ public class TriggerObject : SceneObject
         if (!_exitTriger)
             return;
         DetecoCollision(col);
+        Debug.Log("Exit trigger + " + SceneAOSObject.ObjectId);
     }
     private void DetecoCollision(Collider col)
     {
@@ -36,5 +37,6 @@ public class TriggerObject : SceneObject
         {
             SceneAOSObject.InvokeOnClick();
         }
+   
     }
 }
