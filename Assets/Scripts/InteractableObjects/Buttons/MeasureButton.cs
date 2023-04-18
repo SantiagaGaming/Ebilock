@@ -8,7 +8,6 @@ public class MeasureButton : BaseButton
 {
     public override void OnClicked(InteractHand interactHand)
     {
-
         InstanceHandler.Instance.ShupPositionChanger.SetNewShupPositon(transform,  SceneAOSObject.ObjectId);
     }
     public SceneAosObject MeasureButtonObject => SceneAOSObject;

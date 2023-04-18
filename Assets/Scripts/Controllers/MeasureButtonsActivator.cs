@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class MeasureButtonsActivator : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class MeasureButtonsActivator : MonoBehaviour
     }
     public void DeactivateAllButtons()
     {
+        Debug.Log("DeactivateAllButtons");
         if (_measureButtons.Length < 1)
             return;
         foreach (var item in _measureButtons)
@@ -26,7 +28,9 @@ public class MeasureButtonsActivator : MonoBehaviour
     {
         foreach (var item in _currentButtonsNames)
         {
+          
             ActivateMeasureButton(item);
+            Debug.Log("ActivateAllButtons" + item);
         }
     }
     public void ResetCurrentButtonsList()
@@ -36,6 +40,7 @@ public class MeasureButtonsActivator : MonoBehaviour
     public void AddButtonToList(string buttonName)
     {
         _currentButtonsNames.Add(buttonName);
+        ActivateMeasureButton(buttonName);
     }    
 
 }

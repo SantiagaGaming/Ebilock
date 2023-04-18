@@ -239,6 +239,7 @@ public class API : AosObjectBase
     [AosAction(name: "Показать точки измерения")]
     public void showMeasure(JArray measureDevices, JArray measurePoints)
     {
+        Debug.Log("Show Measure");
         OnResetMeasureButtons?.Invoke();
         foreach (JObject item in measurePoints)
         {
