@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectWithAnimation : MonoBehaviour, IScriptableAnimationObject
+public abstract class ObjectWithAnimation : MonoBehaviour, IScriptableAnimationObject
 {
     public virtual void PlayScriptableAnimationOpen()
     {
