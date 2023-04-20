@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class AnimatorAnimation : ObjectWithAnimation
 {
-    [SerializeField] private Animator _animator;
+    [SerializeField] protected Animator Animator;
+
     public override void PlayScriptableAnimationOpen()
     {
-        _animator.SetTrigger("Open");
+        Animator.SetTrigger("Open");
     }
     public override void PlayScriptableAnimationClose()
     {
-        _animator.SetTrigger("Close");
+        Animator.SetTrigger("Close");
     }
 }
