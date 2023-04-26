@@ -6,21 +6,27 @@ public class Ampermetr : MonoBehaviour
 {
     [SerializeField] private GameObject _ampermetr;
     [SerializeField] private GameObject _strelka;
-    public void EnableAmper(bool value, Transform position)
+    private void Start()
     {
-        if (value)
+        BackButton.OnBackButtonClick += OnDisableAmper;
+    }
+    public void EnableAmper(Transform position)
+    {
+        var active = _ampermetr.activeSelf;
+        if (!active)
         {
             transform.position = position.position;
             transform.rotation= position.rotation;
-            _ampermetr.SetActive(value);
-            _strelka.SetActive(value);  
+            _ampermetr.SetActive(true);
+            _strelka.SetActive(true);
         }
         else
         {
-            DisableAmper();
+            OnDisableAmper();
         }
+     
     }
-    public void DisableAmper()
+    public void OnDisableAmper()
     {
         _ampermetr.SetActive(false);
         _strelka.SetActive(false);

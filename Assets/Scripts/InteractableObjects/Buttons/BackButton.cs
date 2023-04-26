@@ -6,8 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 public class BackButton : BaseButton
 {
-    //[SerializeField] private ScenaAosObjectWithAnimation _animationObject;
-    //[SerializeField] private BackTriggerObject _backTriggerObj;
+    public static UnityAction OnBackButtonClick;
     public override void OnClicked(InteractHand interactHand)
     {
         InstanceHandler.Instance.MovingButtonsController.HideAllButtons();
@@ -17,11 +16,6 @@ public class BackButton : BaseButton
         InstanceHandler.Instance.BackButtonsActivator.SetCurrentBackButton(null);
         InstanceHandler.Instance.ReactionInfoWindow.HidetextHelper();
         InstanceHandler.Instance.MeasureButtonsActivator.DeactivateAllButtons();
-        //ShupController shup = FindObjectOfType<ShupController>();
-        //shup.ResetShupPosition();
-        //AOSColliderActivator.Instance.CanTouch = true;
-        //BackButtonsActivator.Instance.SetBackButtonObject(null);
-        //_backTriggerObj.EnableBackTriggerObject(false);
+        OnBackButtonClick?.Invoke();
     }
-
 }

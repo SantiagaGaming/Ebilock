@@ -22,12 +22,12 @@ public class AmperButton : BaseButton
         {
             DisableMeasureButtons();
         }
-       InstanceHandler.Instance.AmperMetr.EnableAmper(_amper, _amperPosition);
+       InstanceHandler.Instance.AmperMetr.EnableAmper(_amperPosition);
     }
     private void DisableMeasureButtons()
     {
         _amper = false;
-        InstanceHandler.Instance.ShupController.ResetShupPosition();
+        InstanceHandler.Instance.ShupController.OnResetShupPosition();
         InstanceHandler.Instance.MeasureButtonsActivator.DeactivateAllButtons();
         InstanceHandler.Instance.PointerDevice.SetValue(1);
     }

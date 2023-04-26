@@ -249,6 +249,7 @@ public class API : AosObjectBase
                 foreach (JObject item2 in tmpArray)
                 {
                     string butonName = item2.SelectToken("apiId").ToString();
+                    Debug.Log(butonName + " measure");
                     OnAddMeasureButton?.Invoke(butonName);
                 }
             }
