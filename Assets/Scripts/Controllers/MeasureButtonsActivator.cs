@@ -28,9 +28,7 @@ public class MeasureButtonsActivator : MonoBehaviour
     {
         foreach (var item in _currentButtonsNames)
         {
-          
             ActivateMeasureButton(item);
-            Debug.Log("ActivateAllButtons" + item);
         }
     }
     public void ResetCurrentButtonsList()
@@ -42,5 +40,4 @@ public class MeasureButtonsActivator : MonoBehaviour
         _currentButtonsNames.Add(buttonName);
         ActivateMeasureButton(buttonName);
     }    
-
 }

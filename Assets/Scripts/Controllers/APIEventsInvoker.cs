@@ -186,7 +186,8 @@ public class APIEventsInvoker : MonoBehaviour
     }
     private void OnSetMeasureValue(float value)
     {
-        //_measureController.SetDeviceValue(value);
+        InstanceHandler.Instance.MeasureController.SetDeviceValue(value);
+        Debug.Log(value + "From Instance Handler");
     }
     private void OnActivateStreetColliders(string locationName)
     {

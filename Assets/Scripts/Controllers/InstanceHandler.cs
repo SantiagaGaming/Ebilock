@@ -26,6 +26,7 @@ public class InstanceHandler : MonoBehaviour
     [SerializeField] private Ampermetr _ampermetr;
     [SerializeField] private ShupController _shupController;
     [SerializeField] private PointerDevice _pointerDevice;
+    [SerializeField] private MeasureController _measureController;
 
     public PointerDevice PointerDevice => _pointerDevice;
     public ShupController ShupController => _shupController;
@@ -44,6 +45,7 @@ public class InstanceHandler : MonoBehaviour
     public Teleporter Teleporter => _teleporter;
     public BackButtonsActivator BackButtonsActivator => _backButtonsActivator;
     public ShupPositionChanger ShupPositionChanger => _shupPositionChanger;
+    public MeasureController MeasureController => _measureController;   
     private void Awake()
     {
         if (Instance == null)

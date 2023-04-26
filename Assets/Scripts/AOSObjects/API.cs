@@ -249,7 +249,6 @@ public class API : AosObjectBase
                 foreach (JObject item2 in tmpArray)
                 {
                     string butonName = item2.SelectToken("apiId").ToString();
-                    Debug.Log(butonName + " measure");
                     OnAddMeasureButton?.Invoke(butonName);
                 }
             }
@@ -258,10 +257,12 @@ public class API : AosObjectBase
     [AosAction(name: "Показать точки измерения")]
     public void showMeasureResult(JObject result, JObject nav)
     {
+        Debug.Log("In Measure text From API");
         if (result.SelectToken("result") != null)
         {
             float measureValue = float.Parse(result.SelectToken("result").ToString());
             OnSetMeasureValue?.Invoke(measureValue);
+            Debug.Log(measureValue + " From API");
         }
     }
     [AosAction(name: "Показать меню")]

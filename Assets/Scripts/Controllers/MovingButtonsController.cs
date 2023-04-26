@@ -11,6 +11,7 @@ public class MovingButtonsController : MonoBehaviour
 
     public SceneObject CurrentBaseObject { get; set; }
     public IHandObject HandObject { get; set; }
+    public IToolObject ToolObject { get; set; }
 
     [SerializeField] private GameObject _eyeButton;
     [SerializeField] private GameObject _toolButton;
@@ -138,23 +139,9 @@ public class MovingButtonsController : MonoBehaviour
         if (HandObject != null)
             HandObject.HandAction();
     }
-    //public void SetToolObject(RepairableObject obj)
-    //{
-    //    _tempRepairableObject = obj;
-    //}
-    //public void PlayToolAnimation()
-    //{
-    //    if (_tempRepairableObject != null)
-    //        _tempRepairableObject.PlayScritableAnimtaion();
-    //}
-    //public void SetPushObject(PushableObject obj)
-    //{
-    //    _tempPushableObject = obj;
-    //}
-    //public void PlayPushAnimation()
-    //{
-    //    if (_tempPushableObject != null)
-    //        _tempPushableObject.PlayScritableAnimtaion();
-    //}
-
+    public void StartToolAction()
+    {
+        if (ToolObject != null)
+            ToolObject.ToolAction();
+    }
 }
