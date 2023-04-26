@@ -9,6 +9,7 @@ public class ObjectWithButton : SceneObject
 
     [SerializeField] protected DisabableObject DisabableObject;
     [SerializeField] protected RepairableObject RepairableObject;
+    [SerializeField] protected HandRotationObject HandRotationObject;
     [SerializeField] private ObjectWithAnimation _objectWithAnimation;
 
     public override void OnClicked(InteractHand interactHand)
@@ -26,6 +27,10 @@ public class ObjectWithButton : SceneObject
         if (DisabableObject != null)
         {
             InstanceHandler.Instance.MovingButtonsController.HandObject = DisabableObject;
+        }
+        else if(HandRotationObject!=null)
+        {
+            InstanceHandler.Instance.MovingButtonsController.HandObject = HandRotationObject;
         }
         if(RepairableObject!=null)
         {
