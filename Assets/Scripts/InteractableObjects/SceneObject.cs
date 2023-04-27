@@ -76,12 +76,12 @@ public class SceneObject : BaseObject
 
                 if (value)
                 {
-                    outline.GetComponent<MeshRenderer>().material.color *=2.5f;
+                    outline.GetComponent<MeshRenderer>().material.color *=2f;
                 }
 
                 else
                 {
-                    outline.GetComponent<MeshRenderer>().material.color /= 2.5f;
+                    outline.GetComponent<MeshRenderer>().material.color /= 2f;
                 }
 
             }
