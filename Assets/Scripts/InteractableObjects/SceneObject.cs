@@ -64,11 +64,26 @@ public class SceneObject : BaseObject
         if (OutlineObjects != null)
             foreach (var outline in OutlineObjects)
             {
-                if (outline != null)
+                //if (outline != null)
+                //{
+                //    outline.enabled = value;
+                //    outline.OutlineWidth = 3;
+                //}
+                if (outline.GetComponent<MeshRenderer>() == null)
                 {
-                    outline.enabled = value;
-                    outline.OutlineWidth = 3;
+                    return;
                 }
+
+                if (value)
+                {
+                    outline.GetComponent<MeshRenderer>().material.color *=2.5f;
+                }
+
+                else
+                {
+                    outline.GetComponent<MeshRenderer>().material.color /= 2.5f;
+                }
+
             }
     }
 }
