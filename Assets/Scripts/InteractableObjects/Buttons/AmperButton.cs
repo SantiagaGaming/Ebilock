@@ -21,8 +21,10 @@ public class AmperButton : BaseButton
         else
         {
             DisableMeasureButtons();
+            Debug.Log(_amper + " Amper state");
         }
        InstanceHandler.Instance.AmperMetr.EnableAmper(_amperPosition);
+ 
     }
     private void DisableMeasureButtons()
     {
@@ -37,6 +39,7 @@ public class AmperButton : BaseButton
         if (_amper)
         {
             InstanceHandler.Instance.MeasureButtonsActivator.ActivateButtonsWithList();
+            Debug.Log(_amper + " Amper state in coroutine");
         }
     }
 }

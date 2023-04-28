@@ -18,7 +18,11 @@ public class MeasureButtonsActivator : MonoBehaviour
     {
         Debug.Log("DeactivateAllButtons");
         if (_measureButtons.Length < 1)
+        {
+            Debug.Log("DeactivateAllButtons + NULL!!!");
             return;
+        }
+       
         foreach (var item in _measureButtons)
         {
             item.EnableObject(false);
