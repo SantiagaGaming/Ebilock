@@ -25,7 +25,7 @@ public class Teleporter : MonoBehaviour
     [SerializeField] private Transform _hallFromRelay1Position;
     [SerializeField] private Transform _hallFromRelay2Position;
     [Space]
-    [SerializeField] private CameraFadeIn _cameraFadeIn;
+    [SerializeField] private CameraFlash _cameraFlash;
     [SerializeField] private ModeController _modeController;
 
     private Vector3 _currentPlayerPosition = new Vector3();
@@ -125,14 +125,14 @@ public class Teleporter : MonoBehaviour
     {
         if (!CanTeleport)
             return;
-        _cameraFadeIn.StartFade();
+        _cameraFlash.CameraFlashStart();
         Player.Instance.TeleportTo(newPosition);
     }
     private void TeleportPlayer(Vector3 newPos)
     {
         if (!CanTeleport)
             return;
-        _cameraFadeIn.StartFade();
+        _cameraFlash.CameraFlashStart();
         Player.Instance.TeleportTo(newPos);
     }
     private IEnumerator TeleportDelay()

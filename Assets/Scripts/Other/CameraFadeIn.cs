@@ -6,14 +6,16 @@ using UnityEngine.InputSystem;
 
 public class CameraFadeIn : MonoBehaviour
 {
+    [SerializeField] private Teleporter _teleporter;
     public void StartFade()
     {
-        Player.Instance.FadeIn(0, true);
-        StartCoroutine(FadeDelay());
+        Player.Instance.FadeIn(0f, true);
+        StartCoroutine(StartFadeCo());
     }
-    private IEnumerator FadeDelay()
+    private IEnumerator StartFadeCo()
     {
         yield return new WaitForSeconds(0.2f);
-        Player.Instance.FadeOut(0.5f, false);
+        Player.Instance.FadeOut(0.3f, false);
+        yield return new WaitForSeconds(1.5f);
     }
 }
