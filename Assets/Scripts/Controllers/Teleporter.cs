@@ -10,7 +10,7 @@ public class Teleporter : MonoBehaviour
     public bool CanTeleport { get; set; } = true;
     private bool _menu = false;
     private bool _delay = false;
-
+    [SerializeField] private API _api;
     [SerializeField] private Transform _menuPosition;
     [SerializeField] private Transform _hallFieldPosition;
     [SerializeField] private Transform _hallFeedPosition;
@@ -104,7 +104,7 @@ public class Teleporter : MonoBehaviour
     }
     public void TeleportToMenu()
     {
-        if (_delay)
+        if (_delay|| !CanTeleport)
             return;
         _delay = true;
         StartCoroutine(TeleportDelay());
@@ -114,6 +114,7 @@ public class Teleporter : MonoBehaviour
             _currentPlayerPosition = new Vector3(_modeController.GetPlayerTransform().position.x, 2.6f, _modeController.GetPlayerTransform().position.z); ;
             TeleportPlayer(_menuPosition);
             OnTeleportEnd?.Invoke("menu");
+            _api.OnMenuInvoke();
         }
         else
         {
@@ -137,7 +138,7 @@ public class Teleporter : MonoBehaviour
     }
     private IEnumerator TeleportDelay()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         _delay = false;
     }
 }

@@ -17,5 +17,6 @@ public class BackButton : BaseButton
         InstanceHandler.Instance.ReactionInfoWindow.HidetextHelper();
         InstanceHandler.Instance.MeasureButtonsActivator.DeactivateAllButtons();
         OnBackButtonClick?.Invoke();
+
     }
 }

@@ -170,7 +170,6 @@ public class APIEventsInvoker : MonoBehaviour
     {
         InstanceHandler.Instance.MainMenuCanvas.ShowCanvasByName("LastWindow");
         InstanceHandler.Instance.MainMenuCanvas.SetText(headertext, commentText, evalText);
-
     }
     private void OnSetExitText(string exitText, string warntext)
     {
