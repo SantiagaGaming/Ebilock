@@ -6,20 +6,30 @@ using UnityEngine;
 using UnityEngine.Events;
 public class EnableImageButton : BaseButton
 {
-    [SerializeField] private GameObject _mapImage;
-
+    private MapImageButton _mapImageButton;
+    protected override void Start()
+    {
+        base.Start();
+        BackButton.OnBackButtonClick += OnDisableMapImage;
+        _mapImageButton = InstanceHandler.Instance.MapImageButton;
+    }
     public override void OnClicked(InteractHand interactHand)
     {
         base.OnClicked(interactHand);
-        if (_mapImage.activeSelf)
-            _mapImage.SetActive(false);
+        if (_mapImageButton.gameObject.activeSelf)
+            _mapImageButton.gameObject.SetActive(false);
         else
-            _mapImage.SetActive(true);
+        {
+            Vector3 newImagePos = new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f);
+            _mapImageButton.transform.position = newImagePos;
+            _mapImageButton.gameObject.SetActive(true);
+        }
+          
     }
-    private void DisableMap()
+    private void OnDisableMapImage()
     {
-        if (!_mapImage.activeSelf)
+        if (!_mapImageButton.gameObject.activeSelf)
             return;
-            _mapImage.SetActive(false);
+        _mapImageButton.gameObject.SetActive(false);
     }
 }

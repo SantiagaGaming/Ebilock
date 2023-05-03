@@ -26,6 +26,8 @@ public class InstanceHandler : MonoBehaviour
     [SerializeField] private ShupController _shupController;
     [SerializeField] private PointerDevice _pointerDevice;
     [SerializeField] private MeasureController _measureController;
+    [SerializeField] private MapImageButton _mapImageButton;
+    public MapImageButton MapImageButton => _mapImageButton;
     public PointerDevice PointerDevice => _pointerDevice;
     public ShupController ShupController => _shupController;
     public Ampermetr AmperMetr => _ampermetr;
