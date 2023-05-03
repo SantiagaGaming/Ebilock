@@ -1197,6 +1197,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Render360",
+                    "type": "Button",
+                    "id": "8d720262-2bd4-4047-86b0-1138e9e9b86e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1384,6 +1393,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Esc",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fab98a62-776f-4b85-a938-05de89e8ec85",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Render360",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

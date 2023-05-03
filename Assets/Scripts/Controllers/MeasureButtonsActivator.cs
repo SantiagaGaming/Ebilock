@@ -34,6 +34,7 @@ public class MeasureButtonsActivator : MonoBehaviour
         {
             ActivateMeasureButton(item);
         }
+        Debug.Log("In ActivateButtonsWithList");
     }
     public void ResetCurrentButtonsList()
     {

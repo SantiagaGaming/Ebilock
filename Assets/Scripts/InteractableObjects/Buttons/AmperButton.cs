@@ -16,31 +16,21 @@ public class AmperButton : BaseButton
         if (!_amper)
         {
             _amper = true;
-            StartCoroutine(ButtonsActivatorAsync());
+            InstanceHandler.Instance.MeasureButtonsActivator.ActivateButtonsWithList();
         }
         else
         {
+            _amper = false;
             DisableMeasureButtons();
-            Debug.Log(_amper + " Amper state");
         }
        InstanceHandler.Instance.AmperMetr.EnableAmper(_amperPosition);
  
     }
     private void DisableMeasureButtons()
     {
-        _amper = false;
         InstanceHandler.Instance.ShupController.OnResetShupPosition();
         InstanceHandler.Instance.MeasureButtonsActivator.DeactivateAllButtons();
         InstanceHandler.Instance.PointerDevice.SetValue(1);
-    }
-    private IEnumerator ButtonsActivatorAsync()
-    {
-        yield return new WaitForSeconds(0.2f);
-        if (_amper)
-        {
-            InstanceHandler.Instance.MeasureButtonsActivator.ActivateButtonsWithList();
-            Debug.Log(_amper + " Amper state in coroutine");
-        }
     }
 }
 
