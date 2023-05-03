@@ -12,7 +12,6 @@ public class InstanceHandler : MonoBehaviour
     [SerializeField] private AOSColliderActivator _aosColliderActivator;
     [SerializeField] private BackButtonsActivator _backButtonsActivator;
     [SerializeField] private MeasureButtonsActivator _measureButtonsActivator;
-    [SerializeField] private RadioButtonsContainer _radioButtonsContainer;
     [SerializeField] private LocationController _locationController;
     [SerializeField] private Teleporter _teleporter;
     [SerializeField] private MovingButtonsController _movinButtonsController;
@@ -39,7 +38,6 @@ public class InstanceHandler : MonoBehaviour
     public CanvasChanger CanvasChanger => _canvasChanger;
     public TimerView TimerView => _timerView;
     public MainMenuCanvas MainMenuCanvas => _mainMenuCanvas;
-    public RadioButtonsContainer RadioButtonsContainer => _radioButtonsContainer;
     public Diet Diet => _diet;
     public Teleporter Teleporter => _teleporter;
     public BackButtonsActivator BackButtonsActivator => _backButtonsActivator;

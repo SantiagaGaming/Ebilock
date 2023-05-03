@@ -4,22 +4,28 @@ using AosSdk.Core.Utils;
 using AosSdk.Core.PlayerModule.Pointer;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
+
 public class StrelkaButton : BaseButton
 {
-    [SerializeField] private bool _side;
-    public UnityAction OnStrelkaButtonClicked;
+    [SerializeField] private Side _currentSide;
+    private enum Side
+    {
+        Plus,
+        Minus,
+        Indication
+    }
     public override void OnClicked(InteractHand interactHand)
     {
-        if (_side)
+        Diet diet = FindObjectOfType<Diet>();
+        if (diet != null)
         {
-          var  button = InstanceHandler.Instance.RadioButtonsContainer.GetButtonPlus(InstanceHandler.Instance.LocationController.GetLocationName);
-            button.InvokeOnClick();
+            if (_currentSide == Side.Plus)
+                diet.PlusID.InvokeOnClick();
+            else if (_currentSide == Side.Minus)
+                diet.MinusID.InvokeOnClick();
+            else if (_currentSide == Side.Indication)
+                diet.GetIndicationID.InvokeOnClick();
         }
-        else
-        {
-           var button = InstanceHandler.Instance.RadioButtonsContainer.GetButtonMinus(InstanceHandler.Instance.LocationController.GetLocationName);
-            button.InvokeOnClick();
-        }
-        OnStrelkaButtonClicked?.Invoke();
     }
 }

@@ -10,7 +10,6 @@ public class Diet : MonoBehaviour
     [SerializeField] private StrelkaButton _strelkaMinus;
     [SerializeField] private StrelkaButton _strelkaPlus;
     [SerializeField] private StrelkaButton _indication;
-    [SerializeField] private RadioButtonsContainer _radioContainer;
     [SerializeField] private List<SceneAosObject> _radioButtons;
 
     private SceneAosObject _minusID;
@@ -20,49 +19,24 @@ public class Diet : MonoBehaviour
     public SceneAosObject MinusID => _minusID;
     public SceneAosObject GetIndicationID => _indicationID;
     private PlusButtonsNames _plusButtonsNames = new PlusButtonsNames();
-    private MinusButtonsNames _minusButtonsNames= new MinusButtonsNames();
+    private MinusButtonsNames _minusButtonsNames = new MinusButtonsNames();
     private IndicationButtonsNames _indicationButtonsNames = new IndicationButtonsNames();
-
-    public void EnableDiet(bool value, Transform position)
+    public bool DietEnabler { get; set; } = false;
+    private void Start()
     {
-        if (value)
+        BackButton.OnBackButtonClick += OnDisableDiet;
+    }
+
+    public void EnableDiet(Transform position)
+    {
+        DietEnabler = !DietEnabler;
+        if (DietEnabler)
         {
-            _strelkaMinus.GetComponent<Collider>().enabled = true;
-            _strelkaPlus.GetComponent<Collider>().enabled = true;
-            _indication.GetComponent<Collider>().enabled = true;
             _diet.transform.position = position.position;
-            _diet.transform.rotation = position.rotation;
         }
-        StartCoroutine(DietMover(value));
+        _diet.SetActive(DietEnabler);
     }
-    private IEnumerator DietMover(bool value)
-    {
-        if (value)
-        {
-            DisableAllButtons();
-        }
 
-        int x = 0;
-        while (x <= 32)
-        {
-            if (value)
-            {
-                _diet.SetActive(true);
-                _diet.transform.position += new Vector3(0, 0.0125f, 0);
-            }
-            else
-            {
-                DisableAllButtons();
-                _diet.transform.position -= new Vector3(0, 0.0125f, 0);
-            }
-            yield return new WaitForSeconds(0.02f);
-            x++;
-        }
-        if (!value)
-        {
-            _diet.SetActive(false);
-        }
-    }
     public void EnablePlusOrMinus(string button)
     {
         if (_plusButtonsNames.FindButton(button))
@@ -93,5 +67,10 @@ public class Diet : MonoBehaviour
         _strelkaMinus.gameObject.SetActive(false);
         _strelkaPlus.gameObject.SetActive(false);
         _indication.gameObject.SetActive(false);
+    }
+    private void OnDisableDiet()
+    {
+        DietEnabler = false;
+        _diet.SetActive(DietEnabler);
     }
 }

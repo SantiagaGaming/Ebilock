@@ -11,11 +11,6 @@ public class RadioButton : BaseButton
     public override void OnClicked(InteractHand interactHand)
     {
         base.OnClicked(interactHand);
-        DietEnabler(true);
+        InstanceHandler.Instance.Diet.EnableDiet(_dietPosition);
     }
-    public void DietEnabler(bool value)
-    {
-        InstanceHandler.Instance.Diet.EnableDiet(value, _dietPosition);
-    }
-
 }

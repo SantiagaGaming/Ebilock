@@ -11,6 +11,6 @@ public class PlusButtonsNames : BaseNamesHolder
         ButtonsNames.Add("d_apron11_radio_c3");
         ButtonsNames.Add("d_rod11_radio_c3");
         ButtonsNames.Add("d_hollow11_l_radio_c3");
-        ButtonsNames.Add("d_hollow11_r_radio_c3");
+        ButtonsNames.Add("d_hollow11_r_radio_c3");  
     }
 }
