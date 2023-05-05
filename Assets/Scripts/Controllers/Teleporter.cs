@@ -38,7 +38,11 @@ public class Teleporter : MonoBehaviour
    
         OnTeleportEnd?.Invoke(locationName);
         if (locationName == "start")
+        {
             TeleportPlayer(_menuPosition);
+            Player.Instance.CanMove = false;
+        }
+    
         if (_locationNamesHandler.ChekLacationNames(locationName))
         { 
             if (_previousLocation == locationName)
@@ -115,9 +119,11 @@ public class Teleporter : MonoBehaviour
             TeleportPlayer(_menuPosition);
             OnTeleportEnd?.Invoke("menu");
             _api.OnMenuInvoke();
+            Player.Instance.CanMove= false;
         }
         else
         {
+            Player.Instance.CanMove = true;
             _menu = false;
             TeleportPlayer(_currentPlayerPosition);
         }

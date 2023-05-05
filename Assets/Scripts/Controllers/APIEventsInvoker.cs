@@ -168,6 +168,7 @@ public class APIEventsInvoker : MonoBehaviour
     }
     private void OnSetResultScreenText(string headertext, string commentText, string evalText)
     {
+        InstanceHandler.Instance.Teleporter.TeleportToMenu();
         InstanceHandler.Instance.MainMenuCanvas.ShowCanvasByName("LastWindow");
         InstanceHandler.Instance.MainMenuCanvas.SetText(headertext, commentText, evalText);
     }
