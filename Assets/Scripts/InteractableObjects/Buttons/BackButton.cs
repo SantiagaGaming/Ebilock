@@ -7,6 +7,11 @@ using UnityEngine.Events;
 public class BackButton : BaseButton
 {
     public static UnityAction OnBackButtonClick;
+    protected override void Start()
+    {
+        base.Start();
+        transform.parent = null;
+    }
     public override void OnClicked(InteractHand interactHand)
     {
         InstanceHandler.Instance.MovingButtonsController.HideAllButtons();
