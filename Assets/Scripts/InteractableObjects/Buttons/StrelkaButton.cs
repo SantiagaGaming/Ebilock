@@ -4,16 +4,12 @@ using TMPro;
 public class StrelkaButton : BaseButton
 {
     [SerializeField] private TextMeshProUGUI _buttonText;
-    private SceneAosObject _cButton;
+    private SceneAosObject _currentButton;
 
     public override void OnClicked(InteractHand interactHand)
     {
-        Diet diet = FindObjectOfType<Diet>();
-        if (diet != null && _cButton != null)
-        {
-            _cButton.InvokeOnClick();
-            Debug.Log(_cButton.ObjectId);
-        }
+        if (_currentButton != null)
+            _currentButton.InvokeOnClick();
     }
     public void SetButtonText(string text)
     {
@@ -21,7 +17,7 @@ public class StrelkaButton : BaseButton
     }
     public void SetSceneAosId(string id)
     {
-    var dietContainer = FindObjectOfType<DietButtonsContainer>();
-       _cButton= dietContainer.GetButtonById(id);
+        var dietContainer = FindObjectOfType<DietButtonsContainer>();
+        _currentButton = dietContainer.GetButtonById(id);
     }
 }

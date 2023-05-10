@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEditor.Progress;
 
 public class Diet : MonoBehaviour
@@ -25,7 +26,8 @@ public class Diet : MonoBehaviour
         {
             _diet.transform.position = position.position;
         }
-        _diet.SetActive(DietEnabler);
+        else
+        _diet.transform.position = Vector3.zero;
     }
 
     public void EnableDietButtons(string id, string buttonText)
@@ -34,7 +36,8 @@ public class Diet : MonoBehaviour
         var tempButton = _cButtons[_currentButtonIndex];
         tempButton.SetSceneAosId(id);
         tempButton.SetButtonText(buttonText);
-        tempButton.gameObject.SetActive(true);
+        tempButton.GetComponent<Image>().enabled = true;
+        tempButton.GetComponent<Collider>().enabled = true;
         _currentButtonIndex++;
     }
     public void DisableAllButtons()
@@ -42,13 +45,14 @@ public class Diet : MonoBehaviour
         _currentButtonIndex = 0;
         foreach (var item in _cButtons)
         {
-            item.gameObject.SetActive(false);
+            item.GetComponent<Image>().enabled= false;
+            item.GetComponent<Collider>().enabled = false;
         }
     }
     private void OnDisableDiet()
     {
         DietEnabler = false;
-        _diet.SetActive(DietEnabler);
+        _diet.transform.position = Vector3.zero;
         DisableAllButtons();
     }
 }

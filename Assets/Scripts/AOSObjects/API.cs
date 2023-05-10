@@ -135,6 +135,7 @@ public class API : AosObjectBase
     [AosAction(name: "Показать реакцию")]
     public void showReaction(JObject info, JObject nav)
     {
+        Debug.Log("In Reaction!!! API");
         if (info.SelectToken("text") != null)
         {
             var reactionText = info.SelectToken("text").ToString();
