@@ -10,7 +10,11 @@ public class DietButtonsContainer : MonoBehaviour
     {
         var button = _buttons.FirstOrDefault(b => b.ObjectId == id);
             if(button!=null)
+        {
+            Debug.Log(button.ObjectId + " From diet container");
             return button;
+        }
+        
         return null;
 
     }

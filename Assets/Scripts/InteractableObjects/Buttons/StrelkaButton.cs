@@ -9,9 +9,10 @@ public class StrelkaButton : BaseButton
     public override void OnClicked(InteractHand interactHand)
     {
         Diet diet = FindObjectOfType<Diet>();
-        if (diet != null && _cButton!=null)
+        if (diet != null && _cButton != null)
         {
             _cButton.InvokeOnClick();
+            Debug.Log(_cButton.ObjectId);
         }
     }
     public void SetButtonText(string text)
