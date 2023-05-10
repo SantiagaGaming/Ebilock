@@ -2,7 +2,9 @@ using AosSdk.Core.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
 
@@ -47,6 +49,7 @@ public class Diet : MonoBehaviour
         {
             item.GetComponent<Image>().enabled= false;
             item.GetComponent<Collider>().enabled = false;
+            item.GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
     }
     private void OnDisableDiet()
