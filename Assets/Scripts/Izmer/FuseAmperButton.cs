@@ -13,6 +13,7 @@ public class FuseAmperButton : BaseButton
     {
         base.OnClicked(interactHand);
         StartCoroutine(MoveButton(true));
+        if(_aosObject!=null)
         _aosObject.InvokeOnClick();
     }
     public void ResetButton()

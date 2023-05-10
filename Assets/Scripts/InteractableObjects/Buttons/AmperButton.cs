@@ -16,11 +16,13 @@ public class AmperButton : BaseButton
         if (!_amper)
         {
             _amper = true;
+            Debug.Log(_amper + " in if");
             InstanceHandler.Instance.MeasureButtonsActivator.ActivateButtonsWithList();
         }
         else
         {
             _amper = false;
+            Debug.Log(_amper + " in  else if");
             DisableMeasureButtons();
         }
        InstanceHandler.Instance.AmperMetr.EnableAmper(_amperPosition);
