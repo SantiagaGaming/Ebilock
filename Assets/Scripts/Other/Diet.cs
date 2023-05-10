@@ -3,25 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Diet : MonoBehaviour
 {
     [SerializeField] private GameObject _diet;
-    [SerializeField] private StrelkaButton _strelkaMinus;
-    [SerializeField] private StrelkaButton _strelkaPlus;
-    [SerializeField] private StrelkaButton _indication;
-    [SerializeField] private List<SceneAosObject> _radioButtons;
+    [SerializeField] private StrelkaButton[] _cButtons;
 
-    private SceneAosObject _minusID;
-    private SceneAosObject _plusID;
-    private SceneAosObject _indicationID;
-    public SceneAosObject PlusID => _plusID;
-    public SceneAosObject MinusID => _minusID;
-    public SceneAosObject GetIndicationID => _indicationID;
-    private PlusButtonsNames _plusButtonsNames = new PlusButtonsNames();
-    private MinusButtonsNames _minusButtonsNames = new MinusButtonsNames();
-    private IndicationButtonsNames _indicationButtonsNames = new IndicationButtonsNames();
     public bool DietEnabler { get; set; } = false;
+    private int _currentButtonIndex = 0;
+
     private void Start()
     {
         BackButton.OnBackButtonClick += OnDisableDiet;
@@ -37,40 +28,27 @@ public class Diet : MonoBehaviour
         _diet.SetActive(DietEnabler);
     }
 
-    public void EnablePlusOrMinus(string button)
+    public void EnableDietButtons(string id, string buttonText)
     {
-        if (_plusButtonsNames.FindButton(button))
-        {
-            var tempButton = _radioButtons.FirstOrDefault(b => b.ObjectId == button);
-            _plusID = tempButton;
-            _strelkaPlus.gameObject.SetActive(true);
-        }
-        if (_minusButtonsNames.FindButton(button))
-        {
-            var tempButton = _radioButtons.FirstOrDefault(b => b.ObjectId == button);
-            _minusID = tempButton;
-            _strelkaMinus.gameObject.SetActive(true);
-        }
-        if (_indicationButtonsNames.FindButton(button))
-        {
-            var tempButton = _radioButtons.FirstOrDefault(b => b.ObjectId == button);
-            _indicationID = tempButton;
-            _indication.gameObject.SetActive(true);
-        }
-        else if (button == null)
-        {
-            DisableAllButtons();
-        }
+        Debug.Log("In Diet " + id +"  "+ buttonText);
+        var tempButton = _cButtons[_currentButtonIndex];
+        tempButton.SetSceneAosId(id);
+        tempButton.SetButtonText(buttonText);
+        tempButton.gameObject.SetActive(true);
+        _currentButtonIndex++;
     }
-    private void DisableAllButtons()
+    public void DisableAllButtons()
     {
-        _strelkaMinus.gameObject.SetActive(false);
-        _strelkaPlus.gameObject.SetActive(false);
-        _indication.gameObject.SetActive(false);
+        _currentButtonIndex = 0;
+        foreach (var item in _cButtons)
+        {
+            item.gameObject.SetActive(false);
+        }
     }
     private void OnDisableDiet()
     {
         DietEnabler = false;
         _diet.SetActive(DietEnabler);
+        DisableAllButtons();
     }
 }

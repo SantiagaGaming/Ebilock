@@ -83,9 +83,12 @@ public class APIEventsInvoker : MonoBehaviour
     {
         InstanceHandler.Instance.LocationController.ConnectionEstablished();
     }
-    private void OnEnableDietButton(string buttonName)
-    {
-        InstanceHandler.Instance.Diet.EnablePlusOrMinus(buttonName);
+    private void OnEnableDietButton(string buttonName, string buttonText)
+    { 
+        if (buttonName == null || buttonText == null)
+            InstanceHandler.Instance.Diet.DisableAllButtons();
+        else
+        InstanceHandler.Instance.Diet.EnableDietButtons(buttonName,buttonText);
     }
     private void OnEnableMovingButton(string buttonType, string buttonText)
     {

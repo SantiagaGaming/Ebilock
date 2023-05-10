@@ -1,31 +1,26 @@
-using System.Collections;
-using AosSdk.Core.Interaction.Interfaces;
-using AosSdk.Core.Utils;
 using AosSdk.Core.PlayerModule.Pointer;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UIElements;
-
+using TMPro;
 public class StrelkaButton : BaseButton
 {
-    [SerializeField] private Side _currentSide;
-    private enum Side
-    {
-        Plus,
-        Minus,
-        Indication
-    }
+    [SerializeField] private TextMeshProUGUI _buttonText;
+    [SerializeField] private SceneAosObject _cButton;
+
     public override void OnClicked(InteractHand interactHand)
     {
         Diet diet = FindObjectOfType<Diet>();
-        if (diet != null)
+        if (diet != null && _cButton!=null)
         {
-            if (_currentSide == Side.Plus)
-                diet.PlusID.InvokeOnClick();
-            else if (_currentSide == Side.Minus)
-                diet.MinusID.InvokeOnClick();
-            else if (_currentSide == Side.Indication)
-                diet.GetIndicationID.InvokeOnClick();
+            _cButton.InvokeOnClick();
         }
+    }
+    public void SetButtonText(string text)
+    {
+        _buttonText.text = text;
+    }
+    public void SetSceneAosId(string newId)
+    {
+        if(_cButton!=null)
+            _cButton.ObjectId= newId;
     }
 }
