@@ -9,6 +9,7 @@ public class FuseAmperButton : BaseButton
 {
     [SerializeField] private GameObject _buttonBox;
     [SerializeField] private SceneAosObject _aosObject;
+
     public override void OnClicked(InteractHand interactHand)
     {
         base.OnClicked(interactHand);

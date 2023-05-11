@@ -13,13 +13,12 @@ public class MeasureController : MonoBehaviour
     private string _redValue;
     private string _pointerValue;
 
-   public void SetDeviceValue(float value)
+    public void SetDeviceValue(float value)
     {
         Debug.Log(_measuretext + " API MeasureText From Measure Controller");
         _pointerValue = _pointerDevice.SetValue(value);
         _measuretext = $"d_m_c43101:{_type}:{_blackValue}:{_redValue}:{_pointerValue}";
         _api.InvokeOnMeasure(_measuretext);
-       
     }
 
     public void SetTypeText(string type)
