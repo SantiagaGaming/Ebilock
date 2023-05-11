@@ -7,6 +7,11 @@ using UnityEngine.Events;
 public class RadioButton : BaseButton
 {
     [SerializeField] protected Transform _dietPosition;
+    protected override void Start()
+    {
+        base.Start();
+        _dietPosition.transform.parent = null;
+    }
 
     public override void OnClicked(InteractHand interactHand)
     {

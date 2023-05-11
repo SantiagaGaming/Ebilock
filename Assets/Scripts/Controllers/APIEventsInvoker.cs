@@ -84,11 +84,15 @@ public class APIEventsInvoker : MonoBehaviour
         InstanceHandler.Instance.LocationController.ConnectionEstablished();
     }
     private void OnEnableDietButton(string buttonName, string buttonText)
-    { 
+    {
         if (buttonName == null || buttonText == null)
             InstanceHandler.Instance.Diet.DisableAllButtons();
         else
-        InstanceHandler.Instance.Diet.EnableDietButtons(buttonName,buttonText);
+        {
+            InstanceHandler.Instance.Diet.EnableDietButtons(buttonName, buttonText);
+            Debug.Log(buttonName + " From InstanceHandler");
+        }
+    
     }
     private void OnEnableMovingButton(string buttonType, string buttonText)
     {
