@@ -60,7 +60,6 @@ public class API : AosObjectBase
     [AosAction(name: "Задать текст приветствия")]
     public void showWelcome(JObject info, JObject nav)
     {
-        Debug.Log("in show welcome");
         string headerText = info.SelectToken("name").ToString();
         string commentText = info.SelectToken("text").ToString();
         string buttonText = nav.SelectToken("ok").SelectToken("caption").ToString();

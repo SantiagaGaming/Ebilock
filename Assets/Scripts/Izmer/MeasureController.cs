@@ -17,7 +17,7 @@ public class MeasureController : MonoBehaviour
     {
         Debug.Log(_measuretext + " API MeasureText From Measure Controller");
         _pointerValue = _pointerDevice.SetValue(value);
-        _measuretext = $"measure_device:{_type}:{_blackValue}:{_redValue}:{_pointerValue}";
+        _measuretext = $"d_m_c43101:{_type}:{_blackValue}:{_redValue}:{_pointerValue}";
         _api.InvokeOnMeasure(_measuretext);
        
     }
@@ -42,12 +42,12 @@ public class MeasureController : MonoBehaviour
         _pointerValue = null;
         if (_type != null && _blackValue != null && _redValue != null)
         {
-            _measuretext = $"measure_device:{_type}:{_blackValue}:{_redValue}:{_pointerValue}";
+            _measuretext = $"d_m_c43101:{_type}:{_blackValue}:{_redValue}:{_pointerValue}";
         }
         else
         {
             _pointerDevice.SetValue(0);
-            _measuretext = $"measure_device:{_type}:{_blackValue}:{_redValue}:{_pointerValue}";
+            _measuretext = $"d_m_c43101:{_type}:{_blackValue}:{_redValue}:{_pointerValue}";
           
         }
         _api.InvokeOnMeasure(_measuretext);
