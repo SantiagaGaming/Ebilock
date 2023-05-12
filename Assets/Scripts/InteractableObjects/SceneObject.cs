@@ -30,7 +30,7 @@ public class SceneObject : BaseObject
 
         }
         EnableOutlines(true);
-     }
+    }
     public override void OnHoverOut(InteractHand interactHand)
     {
         InstanceHandler.Instance.ObjectsInfoWindow.HidetextHelper();
@@ -39,7 +39,12 @@ public class SceneObject : BaseObject
     public override void EnableObject(bool value)
     {
         if (GetComponent<Collider>() != null)
-            GetComponent<Collider>().enabled = value;
+        {
+            foreach (Collider c in GetComponents<Collider>())
+            {
+                c.enabled = value;
+            }
+        }
         if (GetComponent<SpriteRenderer>() != null)
             GetComponent<SpriteRenderer>().enabled = value;
         if (GetComponentInChildren<SpriteRenderer>() != null)
@@ -76,7 +81,7 @@ public class SceneObject : BaseObject
 
                 if (value)
                 {
-                    outline.GetComponent<MeshRenderer>().material.color *=2f;
+                    outline.GetComponent<MeshRenderer>().material.color *= 2f;
                 }
 
                 else

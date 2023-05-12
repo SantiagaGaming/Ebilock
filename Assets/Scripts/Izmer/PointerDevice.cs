@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PointerDevice : MonoBehaviour
 {
     [SerializeField] private float minValue;
     [SerializeField] private float maxValue;
-    [Space] [SerializeField] private float divisionValue;
+    [Space][SerializeField] private float divisionValue;
     [SerializeField] private Transform arrowTransform;
     [SerializeField] private ArrowRotationAxis arrowRotationAxis;
 
@@ -49,7 +50,7 @@ public class PointerDevice : MonoBehaviour
         }
         else
             targetRotation *= divisionValue * value;
-    
+
         targetRotation += new Vector3(0, -55, 0);
         Debug.Log(targetRotation + "Rotation     " + value + " value        " + divisionValue + " Division");
 
@@ -67,11 +68,10 @@ public class PointerDevice : MonoBehaviour
     }
     private void SetDivisionValue()
     {
-        divisionValue = 108/ maxValue;
+        divisionValue = 108 / maxValue;
     }
     public float GetMaxValue()
     {
         return maxValue;
     }
-
 }

@@ -5,8 +5,21 @@ using TMPro;
 
 public class MovingTextWindow : MonoBehaviour
 {
-    [SerializeField]private TextMeshProUGUI _textMesh;
+    [SerializeField] private TextMeshProUGUI _textMesh;
     [SerializeField] private GameObject _canvasObject;
+    [SerializeField] private GameObject _canvasOnScreenObject;
+    [SerializeField] private TextMeshProUGUI _canvasOnScreenText;
+
+    private ModeController _mode;
+    private bool _vr;
+
+    private void Start()
+    {
+       _mode= FindObjectOfType<ModeController>();
+        if (_mode == null)
+            return;
+        _vr = _mode.VrMode();
+    }
 
     private string _text;
     private Transform _helperPos;
@@ -25,14 +38,27 @@ public class MovingTextWindow : MonoBehaviour
     {
         _timer = 0.3f;
         StopCoroutine("GetHelpName");
-        _canvasObject.SetActive(false);
+        if (_vr)
+            _canvasObject.SetActive(false);
+        else
+            _canvasOnScreenObject.SetActive(false);
     }
     private IEnumerator GetHelpName()
     {
         yield return new WaitForSeconds(_timer);
-        _textMesh.text = _text;
-        transform.position = _helperPos.position;
-        yield return new WaitForSeconds(0.01f);
-        _canvasObject.SetActive(true);
+        if (_vr)
+        {
+            _textMesh.text = _text;
+            transform.position = _helperPos.position;
+            yield return new WaitForSeconds(0.01f);
+            _canvasObject.SetActive(true);
+        }
+        else
+        {
+            _canvasOnScreenText.text = _text;
+            yield return new WaitForSeconds(0.01f);
+            _canvasOnScreenObject.SetActive(true);
+        }
+
     }
 }
