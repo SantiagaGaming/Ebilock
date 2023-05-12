@@ -16,14 +16,16 @@ public class ObjectWithButton : SceneObject
     {
         base.OnClicked(interactHand);
         InstanceHandler.Instance.MovingButtonsController.HideAllButtons();
-        if (_buttonsPos == null)
-            return;
-        InstanceHandler.Instance.MovingButtonsController.SetCurrentBaseObjectAndMovingButtonsPosition(_buttonsPos.position, this);
-        InstanceHandler.Instance.MovingButtonsController.ObjectHelperName = HelperName;
-        InstanceHandler.Instance.ReactionInfoWindow.HidetextHelper();
-        InstanceHandler.Instance.MovingButtonsController.HandObject = null;
-        InstanceHandler.Instance.MovingButtonsController.ToolObject = null;
-        InstanceHandler.Instance.SceneAosObject = SceneAOSObject;
+        if (_buttonsPos != null)
+        {
+            InstanceHandler.Instance.MovingButtonsController.SetCurrentBaseObjectAndMovingButtonsPosition(_buttonsPos.position, this);
+            InstanceHandler.Instance.MovingButtonsController.ObjectHelperName = HelperName;
+            InstanceHandler.Instance.ReactionInfoWindow.HidetextHelper();
+            InstanceHandler.Instance.MovingButtonsController.HandObject = null;
+            InstanceHandler.Instance.MovingButtonsController.ToolObject = null;
+            InstanceHandler.Instance.SceneAosObject = SceneAOSObject;
+        }
+       
         if (DisabableObject != null)
         {
             InstanceHandler.Instance.MovingButtonsController.HandObject = DisabableObject;
@@ -41,7 +43,7 @@ public class ObjectWithButton : SceneObject
             InstanceHandler.Instance.AddAnimationObjectToList(_objectWithAnimation);
             _objectWithAnimation.PlayScriptableAnimationOpen();
             InstanceHandler.Instance.PlaceAnimationObject = _objectWithAnimation;
+          
         }
-
     }
 }
