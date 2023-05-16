@@ -29,7 +29,6 @@ public class PointerDevice : MonoBehaviour
             ArrowRotationAxis.Z => Vector3.forward,
             _ => throw new ArgumentOutOfRangeException()
         };
-        Debug.Log(targetRotation + " Dev");
 
         string retVal = "HIGH";
         // value = Mathf.Clamp(value, minValue, maxValue);
