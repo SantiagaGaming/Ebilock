@@ -5,7 +5,7 @@ using UnityEngine;
 public class Ampermetr : MonoBehaviour
 {
     [SerializeField] private GameObject _ampermetr;
-    [SerializeField] private GameObject _strelka;
+
     private void Start()
     {
         BackButton.OnBackButtonClick += OnDisableAmper;
@@ -18,7 +18,6 @@ public class Ampermetr : MonoBehaviour
             transform.position = position.position;
             transform.rotation= position.rotation;
             _ampermetr.SetActive(true);
-            _strelka.SetActive(true);
         }
         else
         {
@@ -29,6 +28,5 @@ public class Ampermetr : MonoBehaviour
     public void OnDisableAmper()
     {
         _ampermetr.SetActive(false);
-        _strelka.SetActive(false);
     }
 }

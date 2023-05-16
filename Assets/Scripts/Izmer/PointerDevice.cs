@@ -29,29 +29,30 @@ public class PointerDevice : MonoBehaviour
             ArrowRotationAxis.Z => Vector3.forward,
             _ => throw new ArgumentOutOfRangeException()
         };
+        Debug.Log(targetRotation + " Dev");
 
         string retVal = "HIGH";
         // value = Mathf.Clamp(value, minValue, maxValue);
         if (value < 0)
         {
             if (value > -1 * maxValue)
-                targetRotation *= divisionValue * -0.02f;
+                targetRotation *= divisionValue * -0.01f;
             else
-                targetRotation *= divisionValue * -0.04f;
+                targetRotation *= divisionValue * -0.015f;
             retVal = "NEGOVERBOUND";
         }
         else if (value > maxValue)
         {
             if (value >= 2 * maxValue)
-                targetRotation *= divisionValue * maxValue * 1.04f;
+                targetRotation *= divisionValue * maxValue * 0.80f;
             else
-                targetRotation *= divisionValue * maxValue * 1.02f;
+                targetRotation *= divisionValue * maxValue * 0.78f;
             retVal = "POSOVERBOUND";
         }
         else
-            targetRotation *= divisionValue * value;
+            targetRotation *= divisionValue * value *0.76f;
 
-        targetRotation += new Vector3(0, -55, 0);
+        targetRotation += new Vector3(-90, 0, -41);
         Debug.Log(targetRotation + "Rotation     " + value + " value        " + divisionValue + " Division");
 
         arrowTransform.localRotation = Quaternion.Euler(targetRotation);
