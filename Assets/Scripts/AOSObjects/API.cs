@@ -9,34 +9,47 @@ using Newtonsoft.Json.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEditor.Progress;
+
 public enum NextButtonState
 {
     Start,
     Fault
 }
-
+public enum DialogRole
+{
+    User,
+    Dude
+}
 [AosSdk.Core.Utils.AosObject(name: "АПИ")]
 public class API : AosObjectBase
 {
-    public UnityAction OnShowPlace;
-    public UnityAction OnResetMeasureButtons;
-    public UnityAction<float> OnSetMeasureValue;
-    public UnityAction<string> OnSetTeleportLocation;
-    public UnityAction<string> OnSetNewLocationText;
-    public UnityAction<string> OnSetLocation;
-    public UnityAction<string> OnSetLocationForFieldColliders;
-    public UnityAction<string> OnActivateBackButton;
-    public UnityAction<string> OnSetTimerText;
-    public UnityAction<string> OnAddMeasureButton;
-    public UnityAction<string> OnReaction;
-    public UnityAction<string, string> OnEnableDietButtons;
-    public UnityAction<string, string> OnEnableMovingButton;
-    public UnityAction<string, string> OnActivateByName;
-    public UnityAction<string, string> OnSetMessageText;
-    public UnityAction<string, string, string> OnSetResultText;
-    public UnityAction<string, string> OnShowExitText;
-    public UnityAction<string, string, string> OnShowMenuText;
-    public UnityAction<string, string, string, NextButtonState> OnSetStartText;
+    public UnityAction ShowPlaceEvent;
+    public UnityAction StartUpdatePlaceEvent;
+    public UnityAction ResetMeasureButtonsEvent;
+    public UnityAction<string> DialogEvent;
+    public UnityAction<string> DialogHeaderEvent;
+    public UnityAction<float> SetMeasureValueEvent;
+    public UnityAction<string> SetTeleportLocationEvent;
+    public UnityAction<string> SetNewLocationTextEvent;
+    public UnityAction<string> SetLocationEvent;
+    public UnityAction<string> SetLocationForFieldCollidersEvent;
+    public UnityAction<string> ActivateBackButtonEvent;
+    public UnityAction<string> SetTimerTextEvent;
+    public UnityAction<string> AddMeasureButtonEvent;
+    public UnityAction<string> ReactionEvent;
+    public UnityAction<string, DialogRole> AddTextObjectUiEvent;
+    public UnityAction<string, string> AddTextObjectUiButtonEvent;
+    public UnityAction<string, string> EnableDietButtonsEvent;
+    public UnityAction<string, string> PointEvent;
+    public UnityAction<string, string> EnableMovingButtonEvent;
+    public UnityAction<string, string> ActivateByNameEvent;
+    public UnityAction<string, string> ActivatePointByNameEvent;
+    public UnityAction<string, string> SetMessageTextEvent;
+    public UnityAction<string, string, string> SetResultTextEvent;
+    public UnityAction<string, string> ShowExitTextEvent;
+    public UnityAction<string, string, string> ShowMenuTextEvent;
+    public UnityAction<string, string, string, NextButtonState> SetStartTextEvent;
 
     [AosEvent(name: "Перемещение игрока")]
     public event AosEventHandlerWithAttribute EndTween;
@@ -53,9 +66,8 @@ public class API : AosObjectBase
 
     public void Teleport([AosParameter("Задать локацию для перемещения")] string location)
     {
-        OnSetTeleportLocation?.Invoke(location);
+        SetTeleportLocationEvent?.Invoke(location);
         EndTween?.Invoke(location);
-        Debug.Log(location + "From teleport");
     }
     [AosAction(name: "Задать текст приветствия")]
     public void showWelcome(JObject info, JObject nav)
@@ -63,8 +75,8 @@ public class API : AosObjectBase
         string headerText = info.SelectToken("name").ToString();
         string commentText = info.SelectToken("text").ToString();
         string buttonText = nav.SelectToken("ok").SelectToken("caption").ToString();
-        OnSetStartText?.Invoke(headerText, commentText, buttonText, NextButtonState.Start);
-        OnSetTeleportLocation?.Invoke("start");
+        SetStartTextEvent?.Invoke(headerText, commentText, buttonText, NextButtonState.Start);
+        SetTeleportLocationEvent?.Invoke("start");
     }
     [AosAction(name: "Показать информацию отказа")]
     public void showFaultInfo(JObject info, JObject nav)
@@ -72,8 +84,66 @@ public class API : AosObjectBase
         string headerText = info.SelectToken("name").ToString();
         string commentText = info.SelectToken("text").ToString();
         string buttonText = nav.SelectToken("ok").SelectToken("caption").ToString();
-        OnSetStartText?.Invoke(headerText, commentText, buttonText, NextButtonState.Fault);
+        SetStartTextEvent?.Invoke(headerText, commentText, buttonText, NextButtonState.Fault);
     }
+    public void showDialog(JObject info, JArray points, JObject nav)
+    {
+        var dude = info.SelectToken("name");
+        if (dude != null)
+        {
+            var header = dude.ToString();
+            DialogHeaderEvent?.Invoke(header);
+        }
+        foreach (var item in points)
+        {
+            var action = item.SelectToken("action").ToString();
+            Debug.Log("Action " + action);
+            if (action != null)
+                DialogEvent?.Invoke(action);
+            var id = item.SelectToken("apiId").ToString();
+            var name = item.SelectToken("name").ToString();
+            if (id != null && name != null)
+                AddTextObjectUiButtonEvent?.Invoke(id, name);
+        }
+        var outMsg = info.SelectToken("out_msg");
+        if (outMsg != null)
+        {
+            foreach (var item in outMsg)
+            {
+                if (item.SelectToken("msg") != null)
+                {
+                    var msg = item.SelectToken("msg").ToString();
+                    AddTextObjectUiEvent?.Invoke(msg, DialogRole.Dude);
+                }
+            }
+        }
+    }
+    public void addDialogMessage(JArray message)
+    {
+        string msgText = "";
+        foreach (var item in message)
+        {
+            var msg = item.SelectToken("msg");
+            var roles = item.SelectTokens("character");
+            if (msg != null)
+                msgText = msg.ToString();
+            if (roles != null)
+            {
+                foreach (var role in roles)
+                {
+                    if (role.SelectToken("opt_type") != null)
+                    {
+                        var roleText = role.SelectToken("opt_type").ToString();
+                        if (roleText == "dude")
+                            AddTextObjectUiEvent?.Invoke(msgText, DialogRole.Dude);
+                        else if (roleText == "user")
+                            AddTextObjectUiEvent?.Invoke(msgText, DialogRole.User);
+                    }
+                }
+            }
+        }
+    }
+
     public void OnInvokeNavAction(string value)
     {
         navAction.Invoke(value);
@@ -86,31 +156,42 @@ public class API : AosObjectBase
     public void showPlace(JObject place, JArray data, JObject nav)
     {
         string location = place.SelectToken("apiId").ToString();
-        OnSetLocation?.Invoke(location);
+        SetLocationEvent?.Invoke(location);
         if (place.SelectToken("name") != null)
         {
-            OnSetNewLocationText?.Invoke(place.SelectToken("name").ToString());
+            SetNewLocationTextEvent?.Invoke(place.SelectToken("name").ToString());
         }
-        OnShowPlace?.Invoke();
+        ShowPlaceEvent?.Invoke();
         foreach (JObject item in data)
         {
             var temp = item.SelectToken("apiId");
             if (temp != null)
+                ActivateByNameEvent?.Invoke(temp.ToString(), item.SelectToken("name").ToString());
+            if (item.SelectToken("view") != null)
             {
-                OnActivateByName?.Invoke(temp.ToString(), item.SelectToken("name").ToString());
-                Debug.Log(temp.ToString() + " ТЭГ " + item.SelectToken("name").ToString() + "Имя");
+                var aosObjectWithImage = item.SelectToken("view");
+                if (aosObjectWithImage != null)
+                {
+
+                    if (aosObjectWithImage.SelectToken("apiId") != null)
+                    {
+                        string name = aosObjectWithImage.SelectToken("apiId").ToString();
+                        ActivateByNameEvent?.Invoke(name, "");
+                    }
+                }
             }
+            updatePlace(data, "");
         }
         if (nav.SelectToken("back") != null && nav.SelectToken("back").SelectToken("action") != null && nav.SelectToken("back").SelectToken("action").ToString() != String.Empty)
         {
-            OnActivateBackButton?.Invoke(nav.SelectToken("back").SelectToken("action").ToString());
+            ActivateBackButtonEvent?.Invoke(nav.SelectToken("back").SelectToken("action").ToString());
         }
-        OnSetLocationForFieldColliders?.Invoke(location);
+        SetLocationForFieldCollidersEvent?.Invoke(location);
     }
     [AosAction(name: "Обновить место")]
     public void updatePlace(JArray data)
     {
-        OnEnableDietButtons(null, null);
+        EnableDietButtonsEvent(null, null);
         foreach (JObject item in data)
         {
             var temp = item.SelectToken("points");
@@ -123,7 +204,62 @@ public class API : AosObjectBase
                     {
                         string buttonName = temp2.SelectToken("apiId").ToString();
                         string buttonText = temp2.SelectToken("name").ToString();
-                        OnEnableDietButtons(buttonName, buttonText);
+                        EnableDietButtonsEvent(buttonName, buttonText);
+                    }
+                }
+            }
+        }
+    }
+    [AosAction(name: "Обновить место")]
+    public void updatePlace(JArray data, string snd)
+    {
+        StartUpdatePlaceEvent?.Invoke();
+        foreach (JObject item in data)
+        {
+            string pointId = "";
+            string pointActionName = "";
+            if (item != null)
+            {
+                var apiIdParent = item.SelectToken("apiId");
+                if (apiIdParent != null)
+                {
+                    var apiIdParentText = apiIdParent.ToString();
+                    ActivatePointByNameEvent?.Invoke(apiIdParentText, "OnClick");
+                }
+
+                var childs = item.SelectTokens("childs");
+                if (childs != null)
+                {
+                    foreach (var apiId in childs)
+                    {
+                        if (apiId != null)
+                        {
+                            JArray tempArr = (JArray)apiId;
+                            foreach (var temp in tempArr)
+                            {
+                                var pointOpbject = temp.SelectToken("apiId");
+                                if (pointOpbject != null)
+                                    pointId = pointOpbject.ToString();
+                                if (temp.SelectTokens("hands") != null)
+                                {
+                                    var points = temp.SelectTokens("hands");
+                                    foreach (var point in points)
+                                    {
+                                        var pointName = (JArray)point;
+                                        if (pointName != null)
+                                            foreach (var pnt in pointName)
+                                            {
+                                                var ptnObject = pnt.SelectToken("action");
+                                                if (ptnObject != null)
+                                                {
+                                                    pointActionName = ptnObject.ToString();
+                                                    ActivatePointByNameEvent?.Invoke(pointId, pointActionName);
+                                                }
+                                            }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -134,11 +270,10 @@ public class API : AosObjectBase
     [AosAction(name: "Показать реакцию")]
     public void showReaction(JObject info, JObject nav)
     {
-        Debug.Log("In Reaction!!! API");
         if (info.SelectToken("text") != null)
         {
             var reactionText = info.SelectToken("text").ToString();
-            OnReaction?.Invoke(reactionText);
+            ReactionEvent?.Invoke(reactionText);
         }
     }
 
@@ -147,7 +282,7 @@ public class API : AosObjectBase
     {
         string headText = info.SelectToken("name").ToString();
         string commentText = info.SelectToken("text").ToString();
-        OnSetMessageText?.Invoke(headText, commentText);
+        SetMessageTextEvent?.Invoke(headText, commentText);
     }
     [AosAction(name: "Показать сообщение")]
     public void showResult(JObject info, JObject nav)
@@ -155,13 +290,13 @@ public class API : AosObjectBase
         string headText = info.SelectToken("name").ToString();
         string commentText = HtmlToText.Instance.HTMLToTextReplace(HtmlToText.Instance.HTMLToTextReplace(info.SelectToken("text").ToString()));
         string evalText = HtmlToText.Instance.HTMLToTextReplace(info.SelectToken("eval").ToString());
-        OnSetResultText?.Invoke(headText, commentText, evalText);
+        SetResultTextEvent?.Invoke(headText, commentText, evalText);
     }
     [AosAction(name: "Показать точки")]
     public void showPoints(string info, JArray data)
     {
-        OnEnableDietButtons(null, null);
-        OnEnableMovingButton?.Invoke(null, null);
+        EnableDietButtonsEvent(null, null);
+        EnableMovingButtonEvent?.Invoke(null, null);
         foreach (JObject item in data)
         {
             if (item == null)
@@ -172,62 +307,62 @@ public class API : AosObjectBase
                 {
                     string eye = item.SelectToken("tool").ToString();
                     string text = item.SelectToken("name").ToString();
-                    OnEnableMovingButton?.Invoke(eye, text);
+                    EnableMovingButtonEvent?.Invoke(eye, text);
                 }
                 if (item.SelectToken("tool").ToString() == "hand")
                 {
                     string hand = item.SelectToken("tool").ToString();
                     string text = item.SelectToken("name").ToString();
-                    OnEnableMovingButton?.Invoke(hand, text);
+                    EnableMovingButtonEvent?.Invoke(hand, text);
                 }
                 if (item.SelectToken("tool").ToString() == "hand_1")
                 {
                     string hand = item.SelectToken("tool").ToString();
                     string text = item.SelectToken("name").ToString();
-                    OnEnableMovingButton?.Invoke(hand, text);
+                    EnableMovingButtonEvent?.Invoke(hand, text);
                 }
                 if (item.SelectToken("tool").ToString() == "hand_2")
                 {
                     string hand = item.SelectToken("tool").ToString();
                     string text = item.SelectToken("name").ToString();
-                    OnEnableMovingButton?.Invoke(hand, text);
+                    EnableMovingButtonEvent?.Invoke(hand, text);
                 }
                 if (item.SelectToken("tool").ToString() == "hand_3")
                 {
                     string hand = item.SelectToken("tool").ToString();
                     string text = item.SelectToken("name").ToString();
-                    OnEnableMovingButton?.Invoke(hand, text);
+                    EnableMovingButtonEvent?.Invoke(hand, text);
                 }
                 if (item.SelectToken("tool").ToString() == "hand_4")
                 {
                     string hand = item.SelectToken("tool").ToString();
                     string text = item.SelectToken("name").ToString();
-                    OnEnableMovingButton?.Invoke(hand, text);
+                    EnableMovingButtonEvent?.Invoke(hand, text);
                 }
                 if (item.SelectToken("tool").ToString() == "tool")
                 {
                     string tool = item.SelectToken("tool").ToString();
                     string text = item.SelectToken("name").ToString();
-                    OnEnableMovingButton?.Invoke(tool, text);
+                    EnableMovingButtonEvent?.Invoke(tool, text);
                 }
                 if (item.SelectToken("tool").ToString() == "pen")
                 {
                     string tool = item.SelectToken("tool").ToString();
                     string text = item.SelectToken("name").ToString();
-                    OnEnableMovingButton?.Invoke(tool, text);
+                    EnableMovingButtonEvent?.Invoke(tool, text);
                 }
                 if (item.SelectToken("tool").ToString() == "pen_1")
                 {
                     string tool = item.SelectToken("tool").ToString();
                     string text = item.SelectToken("name").ToString();
-                    OnEnableMovingButton?.Invoke(tool, text);
+                    EnableMovingButtonEvent?.Invoke(tool, text);
                 }
             }
             else if (item.SelectToken("apiId") != null && item.SelectToken("name")!=null)
             {
                 string buttonName = item.SelectToken("apiId").ToString();
                 string buttonText = item.SelectToken("name").ToString();
-                OnEnableDietButtons?.Invoke(buttonName, buttonText);
+                EnableDietButtonsEvent?.Invoke(buttonName, buttonText);
             }
         }
     }
@@ -235,13 +370,13 @@ public class API : AosObjectBase
     [AosAction(name: "Показать реакцию")]
     public void showTime(string time)
     {
-        OnSetTimerText?.Invoke(time);
+        SetTimerTextEvent?.Invoke(time);
     }
     [AosAction(name: "Показать точки измерения")]
     public void showMeasure(JArray measureDevices, JArray measurePoints)
     {
         Debug.Log("Show Measure");
-        OnResetMeasureButtons?.Invoke();
+        ResetMeasureButtonsEvent?.Invoke();
         foreach (JObject item in measurePoints)
         {
             var tmpArray = item.SelectToken("points");
@@ -250,7 +385,7 @@ public class API : AosObjectBase
                 foreach (JObject item2 in tmpArray)
                 {
                     string butonName = item2.SelectToken("apiId").ToString();
-                    OnAddMeasureButton?.Invoke(butonName);
+                    AddMeasureButtonEvent?.Invoke(butonName);
                 }
             }
         }
@@ -262,7 +397,7 @@ public class API : AosObjectBase
         if (result.SelectToken("result") != null)
         {
             float measureValue = float.Parse(result.SelectToken("result").ToString());
-            OnSetMeasureValue?.Invoke(measureValue);
+            SetMeasureValueEvent?.Invoke(measureValue);
             Debug.Log(measureValue + " From API");
         }
     }
@@ -272,12 +407,12 @@ public class API : AosObjectBase
         string headtext = faultInfo.SelectToken("name").ToString();
         string commentText = faultInfo.SelectToken("text").ToString();
         string exitSureText = exitInfo.SelectToken("quest").ToString();
-        OnShowMenuText?.Invoke(headtext, commentText, exitSureText);
+        ShowMenuTextEvent?.Invoke(headtext, commentText, exitSureText);
         if (exitInfo.SelectToken("text") != null && exitInfo.SelectToken("warn") != null)
         {
             string exitText = HtmlToText.Instance.HTMLToTextReplace(exitInfo.SelectToken("text").ToString());
             string warntext = HtmlToText.Instance.HTMLToTextReplace(exitInfo.SelectToken("warn").ToString());
-            OnShowExitText?.Invoke(exitText, warntext);
+            ShowExitTextEvent?.Invoke(exitText, warntext);
         }
     }
     public void InvokeOnMeasure(string text)

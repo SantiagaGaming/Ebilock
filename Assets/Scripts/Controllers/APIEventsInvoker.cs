@@ -10,49 +10,49 @@ public class APIEventsInvoker : MonoBehaviour
     private void OnEnable()
     {
         _connectionChecker.OnConnectionReady += OnSetLocationAfterConnection;
-        _api.OnShowPlace += OnDeactivateColliders;
-        _api.OnReaction += OnShowReactionWindow;
-        _api.OnResetMeasureButtons += OnResetMesaureButtons;
-        _api.OnSetTeleportLocation += OnSetLoationToTeleport;
-        _api.OnSetNewLocationText += OnSetLocationTextToLocationController;
-        _api.OnSetLocation += OnSetLocationToLocationController;
-        _api.OnSetLocationForFieldColliders += OnActivateStreetColliders;
-        _api.OnEnableDietButtons += OnEnableDietButton;
-        _api.OnEnableMovingButton += OnEnableMovingButton;
-        _api.OnSetTimerText += OnSetTimerText;
-        _api.OnAddMeasureButton += OnAddButtonToMeasureButtonsList;
-        _api.OnActivateByName += OnActivateSceneObjectByName;
-        _api.OnSetMessageText += OnSetLastScreenText;
-        _api.OnSetResultText += OnSetResultScreenText;
-        _api.OnShowExitText += OnSetExitText;
-        _api.OnShowMenuText += OnSetMenuText;
-        _api.OnSetStartText += OnSetStartText;
-        _api.OnSetMeasureValue += OnSetMeasureValue;
-        _api.OnActivateBackButton += OnActivaneBackButton;
+        _api.ShowPlaceEvent += OnDeactivateColliders;
+        _api.ReactionEvent += OnShowReactionWindow;
+        _api.ResetMeasureButtonsEvent += OnResetMesaureButtons;
+        _api.SetTeleportLocationEvent += OnSetLoationToTeleport;
+        _api.SetNewLocationTextEvent += OnSetLocationTextToLocationController;
+        _api.SetLocationEvent += OnSetLocationToLocationController;
+        _api.SetLocationForFieldCollidersEvent += OnActivateStreetColliders;
+        _api.EnableDietButtonsEvent += OnEnableDietButton;
+        _api.EnableMovingButtonEvent += OnEnableMovingButton;
+        _api.SetTimerTextEvent += OnSetTimerText;
+        _api.AddMeasureButtonEvent += OnAddButtonToMeasureButtonsList;
+        _api.ActivateByNameEvent += OnActivateSceneObjectByName;
+        _api.SetMessageTextEvent += OnSetLastScreenText;
+        _api.SetResultTextEvent += OnSetResultScreenText;
+        _api.ShowExitTextEvent += OnSetExitText;
+        _api.ShowMenuTextEvent += OnSetMenuText;
+        _api.SetStartTextEvent += OnSetStartText;
+        _api.SetMeasureValueEvent += OnSetMeasureValue;
+        _api.ActivateBackButtonEvent += OnActivaneBackButton;
 
     }
     private void OnDisable()
     {
         _connectionChecker.OnConnectionReady -= OnSetLocationAfterConnection;
-        _api.OnShowPlace -= OnDeactivateColliders;
-        _api.OnReaction -= OnShowReactionWindow;
-        _api.OnResetMeasureButtons -= OnResetMesaureButtons;
-        _api.OnSetTeleportLocation -= OnSetLoationToTeleport;
-        _api.OnSetNewLocationText -= OnSetLocationTextToLocationController;
-        _api.OnSetLocation -= OnSetLocationToLocationController;
-        _api.OnSetLocationForFieldColliders -= OnActivateStreetColliders;
-        _api.OnEnableDietButtons -= OnEnableDietButton;
-        _api.OnEnableMovingButton -= OnEnableMovingButton;
-        _api.OnSetTimerText -= OnSetTimerText;
-        _api.OnAddMeasureButton -= OnAddButtonToMeasureButtonsList;
-        _api.OnActivateByName -= OnActivateSceneObjectByName;
-        _api.OnSetMessageText -= OnSetLastScreenText;
-        _api.OnSetResultText -= OnSetResultScreenText;
-        _api.OnShowExitText -= OnSetExitText;
-        _api.OnShowMenuText -= OnSetMenuText;
-        _api.OnSetStartText -= OnSetStartText;
-        _api.OnSetMeasureValue -= OnSetMeasureValue;
-        _api.OnActivateBackButton -= OnActivaneBackButton;
+        _api.ShowPlaceEvent -= OnDeactivateColliders;
+        _api.ReactionEvent -= OnShowReactionWindow;
+        _api.ResetMeasureButtonsEvent -= OnResetMesaureButtons;
+        _api.SetTeleportLocationEvent -= OnSetLoationToTeleport;
+        _api.SetNewLocationTextEvent -= OnSetLocationTextToLocationController;
+        _api.SetLocationEvent -= OnSetLocationToLocationController;
+        _api.SetLocationForFieldCollidersEvent -= OnActivateStreetColliders;
+        _api.EnableDietButtonsEvent -= OnEnableDietButton;
+        _api.EnableMovingButtonEvent -= OnEnableMovingButton;
+        _api.SetTimerTextEvent -= OnSetTimerText;
+        _api.AddMeasureButtonEvent -= OnAddButtonToMeasureButtonsList;
+        _api.ActivateByNameEvent -= OnActivateSceneObjectByName;
+        _api.SetMessageTextEvent -= OnSetLastScreenText;
+        _api.SetResultTextEvent -= OnSetResultScreenText;
+        _api.ShowExitTextEvent -= OnSetExitText;
+        _api.ShowMenuTextEvent -= OnSetMenuText;
+        _api.SetStartTextEvent -= OnSetStartText;
+        _api.SetMeasureValueEvent -= OnSetMeasureValue;
+        _api.ActivateBackButtonEvent -= OnActivaneBackButton;
 
     }
     private void OnDeactivateColliders()

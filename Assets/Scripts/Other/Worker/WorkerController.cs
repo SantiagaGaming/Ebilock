@@ -18,7 +18,7 @@ public class WorkerController : MonoBehaviour
     }
     private void Start()
     {
-        _api.OnSetLocation += OnCheckState;
+        _api.SetLocationEvent += OnCheckState;
     }
     void Update()
     {
