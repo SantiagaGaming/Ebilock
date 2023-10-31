@@ -5,11 +5,11 @@ using UnityEngine;
 public class APIEventsInvoker : MonoBehaviour
 {
     [SerializeField] private API _api;
-    [SerializeField] private ConnectionChecker _connectionChecker;
+    [SerializeField] private ConnectionToClient _connectionChecker;
 
     private void OnEnable()
     {
-        _connectionChecker.OnConnectionReady += OnSetLocationAfterConnection;
+        _connectionChecker.ConnectionReadyEvent += OnSetLocationAfterConnection;
         _api.ShowPlaceEvent += OnDeactivateColliders;
         _api.ReactionEvent += OnShowReactionWindow;
         _api.ResetMeasureButtonsEvent += OnResetMesaureButtons;
@@ -33,7 +33,7 @@ public class APIEventsInvoker : MonoBehaviour
     }
     private void OnDisable()
     {
-        _connectionChecker.OnConnectionReady -= OnSetLocationAfterConnection;
+        _connectionChecker.ConnectionReadyEvent -= OnSetLocationAfterConnection;
         _api.ShowPlaceEvent -= OnDeactivateColliders;
         _api.ReactionEvent -= OnShowReactionWindow;
         _api.ResetMeasureButtonsEvent -= OnResetMesaureButtons;
@@ -57,7 +57,7 @@ public class APIEventsInvoker : MonoBehaviour
     }
     private void OnDeactivateColliders()
     {
-        InstanceHandler.Instance.AOSColliderActivator.DeactivateAllColliders();
+        InstanceHandler.Instance.AOSObjectsActivator.DeactivateAllColliders();
     }
     private void OnResetMesaureButtons()
     {
@@ -166,7 +166,7 @@ public class APIEventsInvoker : MonoBehaviour
     }
     private void OnActivateSceneObjectByName(string id, string name)
     {
-        InstanceHandler.Instance.AOSColliderActivator.ActivateColliders(id, name);
+        InstanceHandler.Instance.AOSObjectsActivator.ActivateColliders(id, name);
     }
     private void OnSetLastScreenText(string headertext, string commentText)
     {

@@ -1,9 +1,11 @@
+using AosSdk.Core.PlayerModule;
 using AosSdk.Core.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 public class EscButton : MonoBehaviour
 {
+    public UnityAction EscClickEvent;
     [SerializeField] private InputActionProperty _menuAction;
     [SerializeField] private API _api;
     private void OnEnable()
@@ -16,7 +18,6 @@ public class EscButton : MonoBehaviour
     }
     private void OnShowMenu(InputAction.CallbackContext c)
     {
-        InstanceHandler.Instance.Teleporter.TeleportToMenu();
+        EscClickEvent?.Invoke();
     }
-
 }

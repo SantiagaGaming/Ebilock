@@ -61,9 +61,9 @@ public class API : AosObjectBase
     public event AosEventHandlerWithAttribute OnReason;
     [AosEvent(name: "Открыть меню")]
     public event AosEventHandler OnMenu;
-
-    public bool MenuTeleport = true;
-
+    [AosEvent(name: "Кнопка нажата")]
+    public event AosEventHandlerWithAttribute OnDialogPoint;
+    public bool MenuTeleport { get; set; } = true;
     public void Teleport([AosParameter("Задать локацию для перемещения")] string location)
     {
         SetTeleportLocationEvent?.Invoke(location);
@@ -426,5 +426,9 @@ public class API : AosObjectBase
     public void OnMenuInvoke()
     {
         OnMenu?.Invoke();
+    }
+    public void OnDialogInvoke(string name)
+    {
+        OnDialogPoint?.Invoke(name);
     }
 }

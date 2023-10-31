@@ -10,12 +10,21 @@ public abstract class BaseObject : MonoBehaviour, IClickAble, IHoverAble
     public bool IsClickable { get; set; } = true;
 
     protected SceneAosObject SceneAOSObject;
+    protected virtual void Awake() => SceneAOSObject = GetComponent<SceneAosObject>();
+
     public virtual void OnClicked(InteractHand interactHand)
+    {
+        InvokeAosEvent();
+    }
+    public void InvokeAosEvent()
     {
         if (SceneAOSObject == null)
             return;
         SceneAOSObject.InvokeOnClick();
-        InstanceHandler.Instance.ReactionInfoWindow.HidetextHelper();
+    }
+    public string GetAOSName()
+    {
+        return SceneAOSObject == null ? null : SceneAOSObject.ObjectId;
     }
     public virtual void OnHoverIn(InteractHand interactHand)
     {
@@ -26,5 +35,4 @@ public abstract class BaseObject : MonoBehaviour, IClickAble, IHoverAble
     public virtual void EnableObject(bool value)
     {
     }
-
 }

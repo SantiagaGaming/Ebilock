@@ -18,7 +18,7 @@ public class MovingTextWindow : MonoBehaviour
        _mode= FindObjectOfType<ModeController>();
         if (_mode == null)
             return;
-        _vr = _mode.VrMode();
+        _vr = _mode.VrMode;
     }
 
     private string _text;

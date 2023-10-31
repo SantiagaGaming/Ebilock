@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class Teleporter : MonoBehaviour
 {
-    public UnityAction<string> OnTeleportEnd;
+    public UnityAction<string> TeleportEndEvent;
     public bool CanTeleport { get; set; } = true;
     private bool _menu = false;
     private bool _delay = false;
@@ -36,7 +36,7 @@ public class Teleporter : MonoBehaviour
     public void Teleport(string locationName)
     {
    
-        OnTeleportEnd?.Invoke(locationName);
+        TeleportEndEvent?.Invoke(locationName);
         if (locationName == "start")
         {
             TeleportPlayer(_menuPosition);
@@ -117,7 +117,7 @@ public class Teleporter : MonoBehaviour
             _menu = true;
             _currentPlayerPosition = new Vector3(_modeController.GetPlayerTransform().position.x, 2.6f, _modeController.GetPlayerTransform().position.z); ;
             TeleportPlayer(_menuPosition);
-            OnTeleportEnd?.Invoke("menu");
+            TeleportEndEvent?.Invoke("menu");
             _api.OnMenuInvoke();
             Player.Instance.CanMove= false;
         }

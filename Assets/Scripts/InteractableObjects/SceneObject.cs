@@ -17,7 +17,7 @@ public class SceneObject : BaseObject
         if (!NonAOS)
         {
             EnableObject(false);
-            InstanceHandler.Instance.AOSColliderActivator.AddSceneObject(this);
+            InstanceHandler.Instance.AOSObjectsActivator.AddSceneObject(this);
             SceneAOSObject = GetComponent<SceneAosObject>();
         }
     }
