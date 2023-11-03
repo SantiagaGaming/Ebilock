@@ -55,6 +55,26 @@ public class APIEventsInvoker : MonoBehaviour
         _api.ActivateBackButtonEvent -= OnActivaneBackButton;
 
     }
+    private void OnDeactivateUiButtons()
+    {
+        InstanceHandler.Instance.AOSObjectsActivator.DeactivateAllArmUIPoints();
+    }
+    private void OnEnableDialog(string text)
+    {
+        InstanceHandler.Instance.CanvasMode.EnableDialogCanvas(text);
+    }
+    private void OnAddTextObjectUiButton(string id, string name)
+    {
+        InstanceHandler.Instance.CanvasMode.AddTextObjectUiButton(id, name);
+    }
+    private void OnAddTextObjectUi(string text, DialogRole role)
+    {
+        InstanceHandler.Instance.CanvasMode.AddTextObjectUi(text, role);
+    }
+    private void OnEnableDialogHeader(string text)
+    {
+        InstanceHandler.Instance.CanvasMode.SetDialogHeaderText(text);
+    }
     private void OnDeactivateColliders()
     {
         InstanceHandler.Instance.AOSObjectsActivator.DeactivateAllColliders();
@@ -65,7 +85,7 @@ public class APIEventsInvoker : MonoBehaviour
     }
     private void OnShowReactionWindow(string reactionText)
     {
-        InstanceHandler.Instance.ReactionInfoWindow.ShowWindowWithText(reactionText);
+        InstanceHandler.Instance.HelpTextController.SetReactionText(reactionText);
     }
     private void OnSetLoationToTeleport(string location)
     {
@@ -153,43 +173,49 @@ public class APIEventsInvoker : MonoBehaviour
     }
     private void OnSetTimerText(string timerText)
     {
-        InstanceHandler.Instance.TimerView.ShowTimerText(timerText);
+        InstanceHandler.Instance.CanvasMode.SetTimeText(timerText);
     }
     private void OnActivaneBackButton(string actionName)
     {
         InstanceHandler.Instance.BackButtonsActivator.ActionToInvoke = actionName;
         InstanceHandler.Instance.BackButtonsActivator.EnableCurrentBackButton(true);
     }
-    private void OnAddButtonToMeasureButtonsList(string buttonName)
-    {
-        InstanceHandler.Instance.MeasureButtonsActivator.AddButtonToList(buttonName);
-    }
     private void OnActivateSceneObjectByName(string id, string name)
     {
         InstanceHandler.Instance.AOSObjectsActivator.ActivateColliders(id, name);
     }
+    private void OnActivateSceneArmPointByName(string id, string name)
+    {
+        InstanceHandler.Instance.AOSObjectsActivator.ActivateArmUIpoints(id, name);
+    }
+    private void OnAddButtonToMeasureButtonsList(string buttonName)
+    {
+        InstanceHandler.Instance.MeasureButtonsActivator.AddButtonToList(buttonName);
+    }
+    private void OnActivatePointObjectByName(string id, string name)
+    {
+        InstanceHandler.Instance.AOSObjectsActivator.ActivatePoints(id, name);
+    }
+
     private void OnSetLastScreenText(string headertext, string commentText)
     {
-        InstanceHandler.Instance.MainMenuCanvas.ShowCanvasByName("LastWindow");
-        InstanceHandler.Instance.MainMenuCanvas.SetText(headertext, commentText);
+        InstanceHandler.Instance.CanvasMode.SetLastScreenText(headertext, commentText);
     }
     private void OnSetResultScreenText(string headertext, string commentText, string evalText)
     {
-        InstanceHandler.Instance.Teleporter.TeleportToMenu();
-        InstanceHandler.Instance.MainMenuCanvas.ShowCanvasByName("LastWindow");
-        InstanceHandler.Instance.MainMenuCanvas.SetText(headertext, commentText, evalText);
+        InstanceHandler.Instance.CanvasMode.SetResultScreenText(headertext, commentText, evalText);
     }
     private void OnSetExitText(string exitText, string warntext)
     {
-        InstanceHandler.Instance.MainMenuCanvas.SetExitText(exitText, warntext);
+        InstanceHandler.Instance.CanvasMode.SetExitText(exitText, warntext);
     }
     private void OnSetMenuText(string headText, string commentText, string exitSureText)
     {
-        InstanceHandler.Instance.MainMenuCanvas.SetMenuText(headText, commentText, exitSureText);
+        InstanceHandler.Instance.CanvasMode.SetMenuText(headText, commentText, exitSureText);
     }
     private void OnSetStartText(string headerText, string commentText, string buttonText, NextButtonState state)
     {
-        InstanceHandler.Instance.CanvasChanger.EnableStartScreen(headerText, commentText, buttonText, state);
+        InstanceHandler.Instance.CanvasMode.SetStartScreenText(headerText, commentText, buttonText, state);
     }
     private void OnSetMeasureValue(float value)
     {

@@ -17,7 +17,6 @@ public class InstanceHandler : MonoBehaviour
     [SerializeField] private MovingButtonsController _movinButtonsController;
     [SerializeField] private MovingTextWindow _objectsInfoWindow;
     [SerializeField] private MovingTextWindow _reactionInfoWindow;
-    [SerializeField] private CanvasChanger _canvasChanger;
     [SerializeField] private TimerView _timerView;
     [SerializeField] private MainMenuCanvas _mainMenuCanvas;
     [SerializeField] private Diet _diet;
@@ -30,6 +29,7 @@ public class InstanceHandler : MonoBehaviour
     [SerializeField] private ModeController _modeController;
     [SerializeField] private API _api;
     [SerializeField] private HelpTextController _helpTextController;
+    [SerializeField] private CanvasMode _canvasMode;
     public MapImageButton MapImageButton => _mapImageButton;
     public PointerDevice PointerDevice => _pointerDevice;
     public ShupController ShupController => _shupController;
@@ -40,7 +40,6 @@ public class InstanceHandler : MonoBehaviour
     public MovingTextWindow ReactionInfoWindow => _reactionInfoWindow;
     public LocationController LocationController => _locationController;
     public MeasureButtonsActivator MeasureButtonsActivator => _measureButtonsActivator;
-    public CanvasChanger CanvasChanger => _canvasChanger;
     public TimerView TimerView => _timerView;
     public MainMenuCanvas MainMenuCanvas => _mainMenuCanvas;
     public Diet Diet => _diet;
@@ -50,6 +49,7 @@ public class InstanceHandler : MonoBehaviour
     public MeasureController MeasureController => _measureController;
     public ModeController ModeController => _modeController;
     public HelpTextController HelpTextController => _helpTextController;
+    public CanvasMode CanvasMode => _canvasMode;
     public API API => _api;
     private void Awake()
     {
