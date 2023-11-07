@@ -7,7 +7,7 @@ using UnityEngine;
 public class HtmlToText : MonoBehaviour
 {
     public static HtmlToText Instance;
-    private HtmlToText(){}
+    private HtmlToText() { }
     private void Awake()
     {
         if (Instance == null)
@@ -21,6 +21,7 @@ public class HtmlToText : MonoBehaviour
         HTMLCode = HTMLCode.Replace("\n", " ");
         // Remove tab spaces
         HTMLCode = HTMLCode.Replace("\t", " ");
+        HTMLCode = HTMLCode.Replace("&#34;А&#34;", " ");
         // Remove multiple white spaces from HTML
         HTMLCode = Regex.Replace(HTMLCode, "\\s+", " ");
         // Remove HEAD tag
