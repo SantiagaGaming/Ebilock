@@ -9,7 +9,6 @@ using Newtonsoft.Json.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEditor.Progress;
 
 public enum NextButtonState
 {

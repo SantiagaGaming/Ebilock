@@ -9,7 +9,7 @@ public class SceneObject : BaseObject
     public bool NonAOS;
 
     [SerializeField] protected Transform HelperPos;
-    [SerializeField] protected OutlineCore[] OutlineObjects;
+    [SerializeField] protected GameObject[] OutlineObjects;
 
     protected string HelperName;
     protected virtual void Start()
@@ -66,29 +66,16 @@ public class SceneObject : BaseObject
     }
     protected void EnableOutlines(bool value)
     {
-        if (OutlineObjects != null)
             foreach (var outline in OutlineObjects)
             {
-                //if (outline != null)
-                //{
-                //    outline.enabled = value;
-                //    outline.OutlineWidth = 3;
-                //}
+            if (outline == null)
+                return;
                 if (outline.GetComponent<MeshRenderer>() == null)
-                {
                     return;
-                }
-
                 if (value)
-                {
                     outline.GetComponent<MeshRenderer>().material.color *= 2f;
-                }
-
                 else
-                {
                     outline.GetComponent<MeshRenderer>().material.color /= 2f;
-                }
-
             }
     }
 }

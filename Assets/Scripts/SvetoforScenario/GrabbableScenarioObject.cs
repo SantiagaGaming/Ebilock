@@ -21,12 +21,6 @@ namespace AosSdk.Examples
             OnActionWithObject?.Invoke();
             GetComponent<Collider>().isTrigger = false;
             GetComponent<Rigidbody>().isKinematic = false;
-            if (OutlineObjects == null)
-                return;
-            foreach (var outline in OutlineObjects)
-            {
-                outline.OutlineWidth = 0;
-            }
         }
         public void OnUnGrabbed(InteractHand interactHand)
         {
