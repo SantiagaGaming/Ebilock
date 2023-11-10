@@ -2,6 +2,8 @@ using AosSdk.Core.PlayerModule;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class MapAndRadioCanvas : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class MapAndRadioCanvas : MonoBehaviour
     [SerializeField] private GameObject _mapObjects;
     [SerializeField] private CursorManager _cursormanager;
     [SerializeField] private CloseCanvasButton _closeCanvasButton;
+
+
     private void Start()
     {
         RadioButton.RadioButtonClickEvent += OnRadioButtonClickEvent;
@@ -25,5 +29,6 @@ public class MapAndRadioCanvas : MonoBehaviour
     {
         _radioObjects.SetActive(true);
         _cursormanager.EnableCursor(true);
+
     }
 }
