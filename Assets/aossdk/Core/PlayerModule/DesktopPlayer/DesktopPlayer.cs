@@ -318,7 +318,7 @@ namespace AosSdk.Core.PlayerModule.DesktopPlayer
             }
             finally
             {
-                if (Player.Instance.CursorLockMode != CursorLockMode.Locked)
+                if (Player.Instance.CursorLockMode != CursorLockMode.Locked && CanMove)
                 {
                     _rotationX += -_mouseInput.y * Launcher.Instance.SdkSettings.mouseLookSpeed;
 

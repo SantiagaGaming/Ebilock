@@ -9,8 +9,7 @@ using UnityEngine.UI;
 
 public class Diet : MonoBehaviour
 {
-    [SerializeField] private GameObject _diet;
-    [SerializeField] private StrelkaButton[] _cButtons;
+    [SerializeField] private RadioUiButton[] _cButtons;
 
     public bool DietEnabler { get; set; } = false;
     private int _currentButtonIndex = 0;
@@ -20,17 +19,6 @@ public class Diet : MonoBehaviour
         BackButton.OnBackButtonClick += OnDisableDiet;
     }
 
-    public void EnableDiet(Transform position)
-    {
-        DietEnabler = !DietEnabler;
-        if (DietEnabler)
-        {
-            _diet.transform.position = position.position;
-        }
-        else
-        _diet.transform.position = Vector3.zero;
-    }
-
     public void EnableDietButtons(string id, string buttonText)
     {
         Debug.Log("In Diet " + id +"  "+ buttonText);
@@ -38,7 +26,7 @@ public class Diet : MonoBehaviour
         tempButton.SetSceneAosId(id);
         tempButton.SetButtonText(buttonText);
         tempButton.GetComponent<Image>().enabled = true;
-        tempButton.GetComponent<Collider>().enabled = true;
+        tempButton.GetComponent<Button>().enabled = true;
         _currentButtonIndex++;
     }
     public void DisableAllButtons()
@@ -46,15 +34,14 @@ public class Diet : MonoBehaviour
         _currentButtonIndex = 0;
         foreach (var item in _cButtons)
         {
-            item.GetComponent<Image>().enabled= false;
-            item.GetComponent<Collider>().enabled = false;
+            item.GetComponent<Image>().enabled = false;
+            item.GetComponent<Button>().enabled = false;
             item.GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
     }
     private void OnDisableDiet()
     {
         DietEnabler = false;
-        _diet.transform.position = Vector3.zero;
         DisableAllButtons();
     }
 }

@@ -10,17 +10,13 @@ public class PlayerCameraDisabler : MonoBehaviour
     [SerializeField] private GameObject _playerDesktopCamera;
     [SerializeField] private GameObject _menuDesktopCamera;
     [SerializeField] private Image _knob;
-    private DesktopPointer _pointer;
-    private void Awake()
-    {
-        _pointer = _knob.GetComponent<DesktopPointer>();
-    }
+    [SerializeField] private CursorManager _cursorManager;
+
     public void EnableDesktopCamera(bool active)
     {
         if(active)
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            _cursorManager.EnableCursor(false);
             _menuDesktopCamera.SetActive(false);
             Player.Instance.CanMove = true;
         }
@@ -28,13 +24,10 @@ public class PlayerCameraDisabler : MonoBehaviour
         {
             InstanceHandler.Instance.HelpTextController.HideReactionText();
             InstanceHandler.Instance.HelpTextController.HideHelperText();
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
+            _cursorManager.EnableCursor(true);
             _menuDesktopCamera.SetActive(true);
             Player.Instance.CanMove = false;
         }   
         _playerDesktopCamera.SetActive(active);
-        _knob.enabled = active;
-        _pointer.enabled = active;
     }
 }
