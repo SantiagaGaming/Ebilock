@@ -1206,6 +1206,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Screen",
+                    "type": "Button",
+                    "id": "20fb6f39-94b8-41e0-a5dc-46ff8b7a6a7a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1404,6 +1413,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Render360",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "58897a8c-88eb-4682-a9c3-f6c72de1e4ec",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Screen",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

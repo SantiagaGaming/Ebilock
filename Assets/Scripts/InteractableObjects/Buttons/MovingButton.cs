@@ -22,6 +22,10 @@ public class MovingButton : BaseButton
         if (HelperPos != null)
             InstanceHandler.Instance.ObjectsInfoWindow.HidetextHelper();
     }
+    public void ChangeButtonPosistion(float y)
+    {
+        transform.localPosition = new Vector3(0, y, 0);
+    }
     public void SetActionText(string text)
     {
         actionText = text;

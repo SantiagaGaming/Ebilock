@@ -9,7 +9,7 @@ public class SceneObject : BaseObject
     public bool NonAOS;
 
     [SerializeField] protected Transform HelperPos;
-    [SerializeField] protected GameObject[] OutlineObjects;
+    [SerializeField] protected GameObject[] Visuals;
 
     protected string HelperName;
     protected virtual void Start()
@@ -29,12 +29,12 @@ public class SceneObject : BaseObject
             InstanceHandler.Instance.ObjectsInfoWindow.ShowWindowWithText(HelperName);
 
         }
-        EnableOutlines(true);
+        EnableHighlight(true);
     }
     public override void OnHoverOut(InteractHand interactHand)
     {
         InstanceHandler.Instance.ObjectsInfoWindow.HidetextHelper();
-        EnableOutlines(false);
+        EnableHighlight(false);
     }
     public override void EnableObject(bool value)
     {
@@ -64,18 +64,19 @@ public class SceneObject : BaseObject
             return SceneAOSObject.ObjectId;
         else return null;
     }
-    protected void EnableOutlines(bool value)
+    protected void EnableHighlight(bool value)
     {
-            foreach (var outline in OutlineObjects)
+        foreach (var visual in Visuals)
+        {
+            foreach (var mesh in visual.GetComponentsInChildren<MeshRenderer>())
             {
-            if (outline == null)
-                return;
-                if (outline.GetComponent<MeshRenderer>() == null)
+                if (mesh == null)
                     return;
                 if (value)
-                    outline.GetComponent<MeshRenderer>().material.color *= 2f;
+                    mesh.GetComponent<MeshRenderer>().material.color *= 2.5f;
                 else
-                    outline.GetComponent<MeshRenderer>().material.color /= 2f;
+                    mesh.GetComponent<MeshRenderer>().material.color /= 2.5f;
             }
+        }
     }
 }
