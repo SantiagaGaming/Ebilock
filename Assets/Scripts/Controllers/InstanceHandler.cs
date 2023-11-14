@@ -30,6 +30,7 @@ public class InstanceHandler : MonoBehaviour
     [SerializeField] private API _api;
     [SerializeField] private HelpTextController _helpTextController;
     [SerializeField] private CanvasMode _canvasMode;
+    [SerializeField] private BackTriggersHoler _backTriggerHoler;
     public MapImageButton MapImageButton => _mapImageButton;
     public PointerDevice PointerDevice => _pointerDevice;
     public ShupController ShupController => _shupController;
@@ -50,6 +51,7 @@ public class InstanceHandler : MonoBehaviour
     public ModeController ModeController => _modeController;
     public HelpTextController HelpTextController => _helpTextController;
     public CanvasMode CanvasMode => _canvasMode;
+    public BackTriggersHoler BackTriggersHoler => _backTriggerHoler;
     public API API => _api;
     private void Awake()
     {

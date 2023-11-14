@@ -7,28 +7,53 @@ using UnityEngine.Rendering.Universal;
 
 public class MapAndRadioCanvas : MonoBehaviour
 {
-    [SerializeField]private GameObject _radioObjects;
+    [SerializeField]private GameObject _canvasObject;
+    [SerializeField] private GameObject _radioObjects;
     [SerializeField] private GameObject _mapObjects;
     [SerializeField] private CursorManager _cursormanager;
     [SerializeField] private CloseCanvasButton _closeCanvasButton;
-
+    [SerializeField] private EscButton _escButton;
+    [SerializeField] private Zoom _zoom;
 
     private void Start()
     {
         RadioButton.RadioButtonClickEvent += OnRadioButtonClickEvent;
+        EnableImageButton.MapButtonClickEvent += OnMapButtonClickEvent;
+        _escButton.EscClickEvent += OnEscClick;
         _closeCanvasButton.BackButtonClickEvent += OnCloseCanvas;
+
+    }
+    private void OnEscClick()
+    {
+        DisableAllObjects();
+        _zoom.CanZoom = true;
     }
 
     private void OnCloseCanvas()
     {
-        _radioObjects.SetActive(false);
+        DisableAllObjects();
         _cursormanager.EnableCursor(false);
+        _zoom.CanZoom = true;
+    }
+    private void DisableAllObjects()
+    {
+        _canvasObject.SetActive(false);
+        _mapObjects.SetActive(false);
+        _radioObjects.SetActive(false);
     }
 
     private void OnRadioButtonClickEvent()
     {
+        _canvasObject.SetActive(true);
         _radioObjects.SetActive(true);
         _cursormanager.EnableCursor(true);
-
+        _zoom.CanZoom = false;
+    }
+    private void OnMapButtonClickEvent()
+    {
+        _canvasObject.SetActive(true);
+        _mapObjects.SetActive(true);
+        _cursormanager.EnableCursor(true);
+        _zoom.CanZoom = false;
     }
 }

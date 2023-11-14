@@ -97,6 +97,8 @@ public class APIEventsInvoker : MonoBehaviour
     }
     private void OnSetLocationToLocationController(string location)
     {
+        Debug.Log("LOCATION " + location);
+        InstanceHandler.Instance.BackTriggersHoler.SetTrigger(location);
         InstanceHandler.Instance.LocationController.SetLocation(location);
     }
     private void OnSetLocationAfterConnection()

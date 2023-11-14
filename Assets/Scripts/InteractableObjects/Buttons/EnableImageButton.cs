@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEngine.Events;
 public class EnableImageButton : BaseButton
 {
+    public delegate void MapButtonClick();
+    public static event MapButtonClick MapButtonClickEvent;
     [SerializeField] private Transform _newSchemePos;
     private MapImageButton _mapImageButton;
     protected override void Start()
@@ -19,11 +21,15 @@ public class EnableImageButton : BaseButton
     public override void OnClicked(InteractHand interactHand)
     {
         base.OnClicked(interactHand);
+        MapButtonClickEvent?.Invoke();
+    }
+    private void VrImageLogic()
+    {
         if (_mapImageButton.gameObject.activeSelf)
             _mapImageButton.gameObject.SetActive(false);
         else
         {
-            if(_newSchemePos==null)
+            if (_newSchemePos == null)
             {
                 Vector3 newImagePos = new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.5f);
                 _mapImageButton.transform.position = newImagePos;
@@ -35,7 +41,6 @@ public class EnableImageButton : BaseButton
 
             _mapImageButton.gameObject.SetActive(true);
         }
-          
     }
     private void OnDisableMapImage()
     {

@@ -7,9 +7,11 @@ using UnityEngine.Events;
 public class BackButton : BaseButton
 {
     public static UnityAction OnBackButtonClick;
+    [SerializeField] private bool _trigger;
     protected override void Start()
     {
         base.Start();
+        if(!_trigger)
         transform.parent = null;
     }
     public override void OnClicked(InteractHand interactHand)
@@ -19,6 +21,7 @@ public class BackButton : BaseButton
         api.OnInvokeNavAction(InstanceHandler.Instance.BackButtonsActivator.ActionToInvoke);
         InstanceHandler.Instance.PlayCloseAnimationForAllObjects();
         InstanceHandler.Instance.BackButtonsActivator.SetCurrentBackButton(null);
+        InstanceHandler.Instance.BackTriggersHoler.EnableCurrentTrigger(false);
         InstanceHandler.Instance.ReactionInfoWindow.HidetextHelper();
         InstanceHandler.Instance.MeasureButtonsActivator.DeactivateAllButtons();
         OnBackButtonClick?.Invoke();
