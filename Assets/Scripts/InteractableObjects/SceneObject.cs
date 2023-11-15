@@ -7,33 +7,30 @@ using UnityEngine;
 public class SceneObject : BaseObject
 {
     public bool NonAOS;
-
+    public delegate void SetTransformAndText(Transform pos, string text);
+    public static SetTransformAndText SetTransformAndTextEvent;
     [SerializeField] protected Transform HelperPos;
     [SerializeField] protected GameObject[] Visuals;
 
+    private float _emmisionValue = 0.5f;
     protected string HelperName;
     protected virtual void Start()
     {
-        if (!NonAOS)
-        {
-            EnableObject(false);
-            InstanceHandler.Instance.AOSObjectsActivator.AddSceneObject(this);
-            SceneAOSObject = GetComponent<SceneAosObject>();
-        }
+        if (NonAOS)
+            return;
+        EnableObject(false);
+        InstanceHandler.Instance.AOSObjectsActivator.AddSceneObject(this);
     }
+    public void SetHelperName(string value) => HelperName = value;
     public override void OnHoverIn(InteractHand interactHand)
     {
         if (HelperPos != null)
-        {
-            InstanceHandler.Instance.ObjectsInfoWindow.SetPosition(HelperPos);
-            InstanceHandler.Instance.ObjectsInfoWindow.ShowWindowWithText(HelperName);
-
-        }
+            SetTransformAndTextEvent?.Invoke(HelperPos, HelperName);
         EnableHighlight(true);
     }
     public override void OnHoverOut(InteractHand interactHand)
     {
-        InstanceHandler.Instance.ObjectsInfoWindow.HidetextHelper();
+        SetTransformAndTextEvent?.Invoke(null, null);
         EnableHighlight(false);
     }
     public override void EnableObject(bool value)
@@ -41,41 +38,27 @@ public class SceneObject : BaseObject
         if (GetComponent<Collider>() != null)
         {
             foreach (Collider c in GetComponents<Collider>())
-            {
                 c.enabled = value;
-            }
         }
         if (GetComponent<SpriteRenderer>() != null)
             GetComponent<SpriteRenderer>().enabled = value;
-        if (GetComponentInChildren<SpriteRenderer>() != null)
-        {
-            var child = GetComponentInChildren<SpriteRenderer>();
-            if (child.GetComponent<BackButton>() == null)
-                child.enabled = value;
-        }
     }
-    public void SetHelperName(string value)
-    {
-        HelperName = value;
-    }
-    public string GetAOSName()
-    {
-        if (SceneAOSObject != null)
-            return SceneAOSObject.ObjectId;
-        else return null;
-    }
+
     protected void EnableHighlight(bool value)
     {
         foreach (var visual in Visuals)
         {
-            foreach (var mesh in visual.GetComponentsInChildren<MeshRenderer>())
+            foreach (var mesh in visual.GetComponentsInChildren<Renderer>())
             {
                 if (mesh == null)
                     return;
                 if (value)
-                    mesh.GetComponent<MeshRenderer>().material.color *= 2.5f;
+                {
+                    mesh.material.EnableKeyword("_EMISSION");
+                    mesh.material.SetColor("_EmissionColor", new Color(_emmisionValue, _emmisionValue, _emmisionValue));
+                }
                 else
-                    mesh.GetComponent<MeshRenderer>().material.color /= 2.5f;
+                    mesh.material.SetColor("_EmissionColor", Color.black);
             }
         }
     }

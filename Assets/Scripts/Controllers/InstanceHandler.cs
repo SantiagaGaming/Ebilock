@@ -9,7 +9,7 @@ public class InstanceHandler : MonoBehaviour
     public ObjectWithAnimation PlaceAnimationObject { get; set; }
     private List<ObjectWithAnimation> _animationObjectList = new List<ObjectWithAnimation>();
 
-    [SerializeField] private AOSObjectsActivator _aosObjectsActivator;
+    [SerializeField] private AOSObjectsHolder _aosObjectsActivator;
     [SerializeField] private BackButtonsActivator _backButtonsActivator;
     [SerializeField] private MeasureButtonsActivator _measureButtonsActivator;
     [SerializeField] private LocationController _locationController;
@@ -35,7 +35,7 @@ public class InstanceHandler : MonoBehaviour
     public PointerDevice PointerDevice => _pointerDevice;
     public ShupController ShupController => _shupController;
     public Ampermetr AmperMetr => _ampermetr;
-    public AOSObjectsActivator AOSObjectsActivator => _aosObjectsActivator;
+    public AOSObjectsHolder AOSObjectsActivator => _aosObjectsActivator;
     public MovingButtonsController MovingButtonsController => _movinButtonsController;
     public MovingTextWindow ObjectsInfoWindow => _objectsInfoWindow;
     public MovingTextWindow ReactionInfoWindow => _reactionInfoWindow;

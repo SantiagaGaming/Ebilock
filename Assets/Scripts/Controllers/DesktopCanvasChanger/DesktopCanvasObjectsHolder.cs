@@ -17,14 +17,14 @@ public class DesktopCanvasObjectsHolder : MonoBehaviour
     {
         _button.ButtonClickedEvent += OnClearItemsList;
     }
-    public void AddItem(string text,DialogRole role)
+    public void AddItem(string text, DialogRole role)
     {
         var exist = _textObjectUis.FirstOrDefault(o => o.Text == text);
         if (exist != null)
             return;
         var prefub = Instantiate(_prefub, _parent);
-        if(role==DialogRole.User)
-        prefub.SetText(text, TextAlignmentOptions.Right);
+        if (role == DialogRole.User)
+            prefub.SetText(text, TextAlignmentOptions.Right);
         else
             prefub.SetText(text, TextAlignmentOptions.Left);
         _textObjectUis.Add(prefub);
@@ -36,7 +36,7 @@ public class DesktopCanvasObjectsHolder : MonoBehaviour
         if (exist != null)
             return;
         var prefub = Instantiate(_prefub, _parent);
-        prefub.SetText(text,TextAlignmentOptions.Center);
+        prefub.SetText(text, TextAlignmentOptions.Center);
         var aosId = prefub.GetComponent<PointUiButton>();
         aosId.SetButtonId(id);
         _textObjectUis.Add(prefub);

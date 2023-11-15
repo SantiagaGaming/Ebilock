@@ -9,7 +9,7 @@ public class APIEventsInvoker : MonoBehaviour
 
     private void OnEnable()
     {
-        _connectionChecker.ConnectionReadyEvent += OnSetLocationAfterConnection;
+        _connectionChecker.OnReadyToAction += OnSetLocationAfterConnection;
         _api.ShowPlaceEvent += OnDeactivateColliders;
         _api.ReactionEvent += OnShowReactionWindow;
         _api.ResetMeasureButtonsEvent += OnResetMesaureButtons;
@@ -31,9 +31,10 @@ public class APIEventsInvoker : MonoBehaviour
         _api.ActivateBackButtonEvent += OnActivaneBackButton;
 
     }
+
     private void OnDisable()
     {
-        _connectionChecker.ConnectionReadyEvent -= OnSetLocationAfterConnection;
+        _connectionChecker.OnReadyToAction -= OnSetLocationAfterConnection;
         _api.ShowPlaceEvent -= OnDeactivateColliders;
         _api.ReactionEvent -= OnShowReactionWindow;
         _api.ResetMeasureButtonsEvent -= OnResetMesaureButtons;
@@ -101,7 +102,7 @@ public class APIEventsInvoker : MonoBehaviour
         InstanceHandler.Instance.BackTriggersHoler.SetTrigger(location);
         InstanceHandler.Instance.LocationController.SetLocation(location);
     }
-    private void OnSetLocationAfterConnection()
+    private void OnSetLocationAfterConnection(object value)
     {
         InstanceHandler.Instance.LocationController.ConnectionEstablished();
     }

@@ -22,7 +22,7 @@ public class BackButton : BaseButton
         InstanceHandler.Instance.PlayCloseAnimationForAllObjects();
         InstanceHandler.Instance.BackButtonsActivator.SetCurrentBackButton(null);
         InstanceHandler.Instance.BackTriggersHoler.EnableCurrentTrigger(false);
-        InstanceHandler.Instance.ReactionInfoWindow.HidetextHelper();
+        InstanceHandler.Instance.ReactionInfoWindow.SetTransfromAndText(null,null);
         InstanceHandler.Instance.MeasureButtonsActivator.DeactivateAllButtons();
         OnBackButtonClick?.Invoke();
 

@@ -15,8 +15,7 @@ public class HelpTextController : MonoBehaviour
         }
         else
         {
-            _helperWindow.SetPosition(pos);
-            _helperWindow.ShowWindowWithText(text);
+            _helperWindow.SetTransfromAndText(pos,text);
         }
     }
     public void HideHelperText()
@@ -27,7 +26,7 @@ public class HelpTextController : MonoBehaviour
             _helperCanvas.SetHelperText("");
         }
         else
-            _helperWindow.HidetextHelper();
+            _helperWindow.SetTransfromAndText(null, null);
     }
     public void SetReactionText(string text)
     {
@@ -36,15 +35,13 @@ public class HelpTextController : MonoBehaviour
             _helperCanvas.SetReactionText(text);
             _helperCanvas.EnableReactionWindow(true);
         }
-          
-        else
-            _reactionWindow.ShowWindowWithText(text);
+
     }
     public void SetReactionPosition(Transform pos)
     {
         if (!_modeController.VrMode)
             return;
-        _reactionWindow.SetPosition(pos);
+
     }
     public void HideReactionText()
     {
@@ -53,7 +50,5 @@ public class HelpTextController : MonoBehaviour
             _helperCanvas.EnableReactionWindow(false);
             _helperCanvas.SetReactionText("");
         }
-        else
-            _reactionWindow.HidetextHelper();
     }
 }

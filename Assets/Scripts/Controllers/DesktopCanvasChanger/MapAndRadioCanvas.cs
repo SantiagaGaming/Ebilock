@@ -21,14 +21,12 @@ public class MapAndRadioCanvas : MonoBehaviour
         EnableImageButton.MapButtonClickEvent += OnMapButtonClickEvent;
         _escButton.EscClickEvent += OnEscClick;
         _closeCanvasButton.BackButtonClickEvent += OnCloseCanvas;
-
     }
     private void OnEscClick()
     {
         DisableAllObjects();
         _zoom.CanZoom = true;
     }
-
     private void OnCloseCanvas()
     {
         DisableAllObjects();

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 
 public class MovingTextWindow : MonoBehaviour
 {
@@ -11,37 +12,36 @@ public class MovingTextWindow : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _canvasOnScreenText;
 
     private ModeController _mode;
+    private Transform _helperPos;
+
+    private string _text;
+    private float _timer = 0.2f;
     private bool _vr;
 
     private void Start()
     {
-       _mode= FindObjectOfType<ModeController>();
+        _mode = FindObjectOfType<ModeController>();
         if (_mode == null)
             return;
         _vr = _mode.VrMode;
+        SceneObject.SetTransformAndTextEvent += SetTransfromAndText;
     }
-
-    private string _text;
-    private Transform _helperPos;
-    private float _timer = 0.2f;
-
-    public void SetPosition(Transform newPos)
+    public void SetTransfromAndText(Transform newPos, string text)
     {
-        _helperPos = newPos;
-    }
-    public void ShowWindowWithText(string text)
-    {
-       _text = HtmlToText.Instance.HTMLToTextReplace(text);
-        StartCoroutine("GetHelpName");
-    }
-    public void HidetextHelper()
-    {
-        _timer = 0.3f;
-        StopCoroutine("GetHelpName");
-        if (_vr)
-            _canvasObject.SetActive(false);
+        if (newPos != null && text != null)
+        {
+            _text = HtmlToText.Instance.HTMLToTextReplace(text);
+            StartCoroutine("GetHelpName");
+        }
         else
-            _canvasOnScreenObject.SetActive(false);
+        {
+            _timer = 0.3f;
+            StopCoroutine("GetHelpName");
+            if (_vr)
+                _canvasObject.SetActive(false);
+            else
+                _canvasOnScreenObject.SetActive(false);
+        }
     }
     private IEnumerator GetHelpName()
     {

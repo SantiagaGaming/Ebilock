@@ -12,15 +12,14 @@ public class MovingButton : BaseButton
         transform.localScale *= 1.5f;
         if (HelperPos != null)
         {
-            InstanceHandler.Instance.ObjectsInfoWindow.SetPosition(HelperPos);
-            InstanceHandler.Instance.ObjectsInfoWindow.ShowWindowWithText(actionText);
+            InstanceHandler.Instance.ObjectsInfoWindow.SetTransfromAndText(HelperPos, actionText);
         }
     }
     public override void OnHoverOut(InteractHand interactHand)
     {
         transform.localScale /= 1.5f;
         if (HelperPos != null)
-            InstanceHandler.Instance.ObjectsInfoWindow.HidetextHelper();
+            InstanceHandler.Instance.ObjectsInfoWindow.SetTransfromAndText(null, null);
     }
     public void ChangeButtonPosistion(float y)
     {

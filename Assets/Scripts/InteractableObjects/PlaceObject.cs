@@ -13,8 +13,8 @@ public class PlaceObject : SceneObject
         base.OnClicked(interactHand);
         if (_backButton != null)
             InstanceHandler.Instance.BackButtonsActivator.SetCurrentBackButton(_backButton);
-        if (_reactionPos != null)
-            InstanceHandler.Instance.ReactionInfoWindow.SetPosition(_reactionPos);
+        //if (_reactionPos != null)
+        //    InstanceHandler.Instance.ReactionInfoWindow.SetPosition(_reactionPos);
         if (_objectWithAnimation != null)
         {
             InstanceHandler.Instance.AddAnimationObjectToList(_objectWithAnimation);

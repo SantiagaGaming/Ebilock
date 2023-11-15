@@ -9,6 +9,6 @@ public class LoneObjectWithButton : ObjectWithButton
     public override void OnClicked(InteractHand interactHand)
     {
         base.OnClicked(interactHand);
-        InstanceHandler.Instance.ReactionInfoWindow.SetPosition(_reactionPos);
+        //InstanceHandler.Instance.ReactionInfoWindow.SetPosition(_reactionPos);
     }
 }
