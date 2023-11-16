@@ -13,6 +13,7 @@ public class CursorManager : MonoBehaviour
     private void Awake()
     {
         _pointer = _knob.GetComponent<DesktopPointer>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
     public void EnableCursor(bool value)
     {

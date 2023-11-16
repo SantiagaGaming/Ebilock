@@ -5,11 +5,11 @@ using UnityEngine;
 public class DesktopCanvas : GameCanvasBase
 {
     [SerializeField] private PlayerCameraDisabler _playerCameraDisabler;
+    [SerializeField] private GameObject _lockedCanvas;
     [SerializeField] private DesktopCanvasObject[] _desktopCanvases;
     [SerializeField] private EscButton _escButton;
     [SerializeField] private DesktopCanvasObjectsHolder _textHolder;
     [SerializeField] private DesktopCanvasObjectsHolder _buttonsHolder;
-    [SerializeField] private CameraFlash _cameraFlash;
 
     private bool _canSwitch = true;
 
@@ -25,8 +25,8 @@ public class DesktopCanvas : GameCanvasBase
         if (name == START)
         {
             DisableAllCanvases();
+            _lockedCanvas.SetActive(true);
             ShowCanvas(CanvasState.None);
-            _cameraFlash.CameraFlashStart();
         }
     }
     private void OnEscClick()
@@ -39,12 +39,11 @@ public class DesktopCanvas : GameCanvasBase
             InstanceHandler.Instance.API.OnMenuInvoke();
         }
         else ShowCanvas(CanvasState.None);
-        _cameraFlash.CameraFlashStart();
+
     }
     private void OnExitFromCanvas()
     {
         ShowCanvas(CanvasState.None);
-        _cameraFlash.CameraFlashStart();
     }
 
     public override void ShowCanvas(CanvasState state)
@@ -52,10 +51,16 @@ public class DesktopCanvas : GameCanvasBase
         if (!_canSwitch)
             return;
         SwitchCamera(state);
+        if (state == CanvasState.None)
+        {
+            _lockedCanvas.SetActive(false);
+            DisableAllCanvases();
+        }
         var canvasToShow = _desktopCanvases.FirstOrDefault(c => state == c.CurrentState);
         if (canvasToShow != null)
         {
             DisableAllCanvases();
+            _lockedCanvas.SetActive(true);
             canvasToShow.gameObject.SetActive(true);
         }
         CurrentState = state;

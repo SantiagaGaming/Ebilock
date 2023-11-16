@@ -8,10 +8,7 @@ public class Teleporter : MonoBehaviour
 {
     public UnityAction<string> TeleportEndEvent;
     public bool CanTeleport { get; set; } = true;
-    private bool _menu = false;
-    private bool _delay = false;
     [SerializeField] private API _api;
-    [SerializeField] private Transform _menuPosition;
     [SerializeField] private Transform _hallFieldPosition;
     [SerializeField] private Transform _hallFeedPosition;
     [SerializeField] private Transform _hallDspPosition;
@@ -28,7 +25,6 @@ public class Teleporter : MonoBehaviour
     [SerializeField] private CameraFlash _cameraFlash;
     [SerializeField] private ModeController _modeController;
 
-    private Vector3 _currentPlayerPosition = new Vector3();
 
     private string _previousLocation;
 
@@ -37,11 +33,7 @@ public class Teleporter : MonoBehaviour
     {
    
         TeleportEndEvent?.Invoke(locationName);
-        if (locationName == "start")
-        {
-            TeleportPlayer(_menuPosition);
-            Player.Instance.CanMove = false;
-        }
+
     
         if (_locationNamesHandler.ChekLacationNames(locationName))
         { 
@@ -106,45 +98,11 @@ public class Teleporter : MonoBehaviour
             }
         }       
     }
-    public void TeleportToMenu()
-    {
-        if (_delay|| !CanTeleport)
-            return;
-        _delay = true;
-        StartCoroutine(TeleportDelay());
-        if (!_menu)
-        {
-            _menu = true;
-            _currentPlayerPosition = new Vector3(_modeController.GetPlayerTransform().position.x, 2.6f, _modeController.GetPlayerTransform().position.z); ;
-            TeleportPlayer(_menuPosition);
-            TeleportEndEvent?.Invoke("menu");
-            _api.OnMenuInvoke();
-            Player.Instance.CanMove= false;
-        }
-        else
-        {
-            Player.Instance.CanMove = true;
-            _menu = false;
-            TeleportPlayer(_currentPlayerPosition);
-        }
-    }
     private void TeleportPlayer(Transform newPosition)
     {
         if (!CanTeleport)
             return;
         _cameraFlash.CameraFlashStart();
         Player.Instance.TeleportTo(newPosition);
-    }
-    private void TeleportPlayer(Vector3 newPos)
-    {
-        if (!CanTeleport)
-            return;
-        _cameraFlash.CameraFlashStart();
-        Player.Instance.TeleportTo(newPos);
-    }
-    private IEnumerator TeleportDelay()
-    {
-        yield return new WaitForSeconds(0.5f);
-        _delay = false;
     }
 }

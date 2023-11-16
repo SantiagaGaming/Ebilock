@@ -25,13 +25,11 @@ public class MapAndRadioCanvas : MonoBehaviour
     private void OnEscClick()
     {
         DisableAllObjects();
-        _zoom.CanZoom = true;
     }
     private void OnCloseCanvas()
     {
         DisableAllObjects();
         _cursormanager.EnableCursor(false);
-        _zoom.CanZoom = true;
     }
     private void DisableAllObjects()
     {
@@ -45,13 +43,11 @@ public class MapAndRadioCanvas : MonoBehaviour
         _canvasObject.SetActive(true);
         _radioObjects.SetActive(true);
         _cursormanager.EnableCursor(true);
-        _zoom.CanZoom = false;
     }
     private void OnMapButtonClickEvent()
     {
         _canvasObject.SetActive(true);
         _mapObjects.SetActive(true);
         _cursormanager.EnableCursor(true);
-        _zoom.CanZoom = false;
     }
 }

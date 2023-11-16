@@ -7,6 +7,6 @@ public class BackFromMenuButton : BaseButton
 {
     public override void OnClicked(InteractHand interactHand)
     {
-        InstanceHandler.Instance.Teleporter.TeleportToMenu();
+
     }
 }
