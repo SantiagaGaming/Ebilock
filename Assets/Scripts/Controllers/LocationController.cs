@@ -9,7 +9,7 @@ public class LocationController : MonoBehaviour
     [SerializeField] private API _api;
     [SerializeField] private LocationText _locationText;
 
-    private string _currentLocation = "field";
+    private string _currentLocation = "hall";
     public string GetLocationName => _currentLocation;
 
     public void SetLocationtext(string text)
