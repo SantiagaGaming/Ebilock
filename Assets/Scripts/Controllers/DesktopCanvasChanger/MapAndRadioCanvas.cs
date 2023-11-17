@@ -12,6 +12,7 @@ public class MapAndRadioCanvas : MonoBehaviour
     [SerializeField] private GameObject _mapObjects;
     [SerializeField] private CursorManager _cursormanager;
     [SerializeField] private CloseCanvasButton _closeCanvasButton;
+    [SerializeField] private CloseCanvasButton _closeCanvasButton2;
     [SerializeField] private EscButton _escButton;
     [SerializeField] private Zoom _zoom;
 
@@ -21,6 +22,7 @@ public class MapAndRadioCanvas : MonoBehaviour
         EnableImageButton.MapButtonClickEvent += OnMapButtonClickEvent;
         _escButton.EscClickEvent += OnEscClick;
         _closeCanvasButton.BackButtonClickEvent += OnCloseCanvas;
+        _closeCanvasButton2.BackButtonClickEvent += OnCloseCanvas;
     }
     private void OnEscClick()
     {
@@ -40,6 +42,12 @@ public class MapAndRadioCanvas : MonoBehaviour
 
     private void OnRadioButtonClickEvent()
     {
+        HelpTextController helptext = FindObjectOfType<HelpTextController>();
+        if(helptext!=null)
+        {
+            helptext.HideHelperText();
+            helptext.HideReactionText();
+        }
         _canvasObject.SetActive(true);
         _radioObjects.SetActive(true);
         _cursormanager.EnableCursor(true);
