@@ -5,7 +5,6 @@ using UnityEngine;
 public class MeasureController : MonoBehaviour
 {
     [SerializeField] private PointerDevice _pointerDevice;
-    [SerializeField] private API _api;
 
     private string _measuretext;
     private string _type;
@@ -18,7 +17,7 @@ public class MeasureController : MonoBehaviour
         Debug.Log(_measuretext + " API MeasureText From Measure Controller");
         _pointerValue = _pointerDevice.SetValue(value);
         _measuretext = $"d_m_c43101:{_type}:{_blackValue}:{_redValue}:{_pointerValue}";
-        _api.InvokeOnMeasure(_measuretext);
+        API.Instance.InvokeOnMeasure(_measuretext);
     }
 
     public void SetTypeText(string type)

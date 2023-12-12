@@ -1,8 +1,5 @@
 using AosSdk.Core.PlayerModule;
 using AosSdk.Core.PlayerModule.Pointer;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 

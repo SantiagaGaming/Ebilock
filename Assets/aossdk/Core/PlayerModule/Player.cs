@@ -24,7 +24,7 @@ namespace AosSdk.Core.PlayerModule
         public GameObject GameObject { get; set; }
 
         private bool _canMove = true;
-
+        public bool CanTouch { get; set; } = true;
         public bool CanMove
         {
             get => _canMove;

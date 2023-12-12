@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.Events;
-using static BackFromMenuUIButton;
 
 public class MovingButtonsController : MonoBehaviour
 {
-    public UnityAction ButtonsPositionChanged;
+    public Action ButtonsPositionChanged;
     [HideInInspector] public string ObjectHelperName { get; set; }
     [HideInInspector] public string ObjectName { get; set; }
 

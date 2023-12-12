@@ -36,7 +36,7 @@ public class DesktopCanvas : GameCanvasBase
         if (CurrentState != CanvasState.Start && CurrentState != CanvasState.Menu)
         {
             ShowCanvas(CanvasState.Menu);
-            InstanceHandler.Instance.API.OnMenuInvoke();
+            API.Instance.OnMenuInvoke();
         }
         else ShowCanvas(CanvasState.None);
 

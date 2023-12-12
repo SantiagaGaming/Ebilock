@@ -1,14 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using AosSdk.Core.Interaction.Interfaces;
-using AosSdk.Core.PlayerModule;
 using AosSdk.Core.Utils;
 using Newtonsoft.Json.Linq;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 
 public enum NextButtonState
 {
@@ -23,32 +16,32 @@ public enum DialogRole
 [AosSdk.Core.Utils.AosObject(name: "АПИ")]
 public class API : AosObjectBase
 {
-    public UnityAction ShowPlaceEvent;
-    public UnityAction StartUpdatePlaceEvent;
-    public UnityAction ResetMeasureButtonsEvent;
-    public UnityAction<string> DialogEvent;
-    public UnityAction<string> DialogHeaderEvent;
-    public UnityAction<float> SetMeasureValueEvent;
-    public UnityAction<string> SetTeleportLocationEvent;
-    public UnityAction<string> SetNewLocationTextEvent;
-    public UnityAction<string> SetLocationEvent;
-    public UnityAction<string> SetLocationForFieldCollidersEvent;
-    public UnityAction<string> ActivateBackButtonEvent;
-    public UnityAction<string> SetTimerTextEvent;
-    public UnityAction<string> AddMeasureButtonEvent;
-    public UnityAction<string> ReactionEvent;
-    public UnityAction<string, DialogRole> AddTextObjectUiEvent;
-    public UnityAction<string, string> AddTextObjectUiButtonEvent;
-    public UnityAction<string, string> EnableDietButtonsEvent;
-    public UnityAction<string, string> PointEvent;
-    public UnityAction<string, string> EnableMovingButtonEvent;
-    public UnityAction<string, string> ActivateByNameEvent;
-    public UnityAction<string, string> ActivatePointByNameEvent;
-    public UnityAction<string, string> SetMessageTextEvent;
-    public UnityAction<string, string, string> SetResultTextEvent;
-    public UnityAction<string, string> ShowExitTextEvent;
-    public UnityAction<string, string, string> ShowMenuTextEvent;
-    public UnityAction<string, string, string, NextButtonState> SetStartTextEvent;
+    public Action ShowPlaceEvent;
+    public Action StartUpdatePlaceEvent;
+    public Action ResetMeasureButtonsEvent;
+    public Action<string> DialogEvent;
+    public Action<string> DialogHeaderEvent;
+    public Action<float> SetMeasureValueEvent;
+    public Action<string> TeleportStartEvent;
+    public Action<string> SetNewLocationTextEvent;
+    public Action<string> SetLocationEvent;
+    public Action<string> SetLocationForFieldCollidersEvent;
+    public Action<string> ActivateBackButtonEvent;
+    public Action<string> SetTimerTextEvent;
+    public Action<string> AddMeasureButtonEvent;
+    public Action<string> ReactionEvent;
+    public Action<string, DialogRole> AddTextObjectUiEvent;
+    public Action<string, string> AddTextObjectUiButtonEvent;
+    public Action<string, string> EnableDietButtonsEvent;
+    public Action<string, string> PointEvent;
+    public Action<string, string> EnableMovingButtonEvent;
+    public Action<string, string> ActivateByNameEvent;
+    public Action<string, string> ActivatePointByNameEvent;
+    public Action<string, string> SetMessageTextEvent;
+    public Action<string, string, string> SetResultTextEvent;
+    public Action<string, string> ShowExitTextEvent;
+    public Action<string, string, string> ShowMenuTextEvent;
+    public Action<string, string, string, NextButtonState> SetStartTextEvent;
 
     [AosEvent(name: "Перемещение игрока")]
     public event AosEventHandlerWithAttribute EndTween;
@@ -62,10 +55,15 @@ public class API : AosObjectBase
     public event AosEventHandler OnMenu;
     [AosEvent(name: "Кнопка нажата")]
     public event AosEventHandlerWithAttribute OnDialogPoint;
-    public bool MenuTeleport { get; set; } = true;
+    public static API Instance { get; private set; }
+    private void Awake()
+    {
+        if(Instance ==null)
+            Instance = this;
+    }
     public void Teleport([AosParameter("Задать локацию для перемещения")] string location)
     {
-        SetTeleportLocationEvent?.Invoke(location);
+        TeleportStartEvent?.Invoke(location);
         EndTween?.Invoke(location);
     }
     [AosAction(name: "Задать текст приветствия")]
@@ -75,7 +73,7 @@ public class API : AosObjectBase
         string commentText = info.SelectToken("text").ToString();
         string buttonText = nav.SelectToken("ok").SelectToken("caption").ToString();
         SetStartTextEvent?.Invoke(headerText, commentText, buttonText, NextButtonState.Start);
-        SetTeleportLocationEvent?.Invoke("start");
+        TeleportStartEvent?.Invoke("start");
     }
     [AosAction(name: "Показать информацию отказа")]
     public void showFaultInfo(JObject info, JObject nav)
@@ -141,15 +139,6 @@ public class API : AosObjectBase
                 }
             }
         }
-    }
-
-    public void OnInvokeNavAction(string value)
-    {
-        navAction.Invoke(value);
-    }
-    public void ConnectionEstablished(string currentLocation)
-    {
-        EndTween?.Invoke(currentLocation);
     }
     [AosAction(name: "Показать место")]
     public void showPlace(JObject place, JArray data, JObject nav)
@@ -264,8 +253,6 @@ public class API : AosObjectBase
             }
         }
     }
-
-
     [AosAction(name: "Показать реакцию")]
     public void showReaction(JObject info, JObject nav)
     {
@@ -357,7 +344,7 @@ public class API : AosObjectBase
                     EnableMovingButtonEvent?.Invoke(tool, text);
                 }
             }
-            else if (item.SelectToken("apiId") != null && item.SelectToken("name")!=null)
+            else if (item.SelectToken("apiId") != null && item.SelectToken("name") != null)
             {
                 string buttonName = item.SelectToken("apiId").ToString();
                 string buttonText = item.SelectToken("name").ToString();
@@ -413,6 +400,14 @@ public class API : AosObjectBase
             string warntext = HtmlToText.Instance.HTMLToTextReplace(exitInfo.SelectToken("warn").ToString());
             ShowExitTextEvent?.Invoke(exitText, warntext);
         }
+    }
+    public void OnInvokeNavAction(string value)
+    {
+        navAction.Invoke(value);
+    }
+    public void ConnectionEstablished(string currentLocation)
+    {
+        EndTween?.Invoke(currentLocation);
     }
     public void InvokeOnMeasure(string text)
     {

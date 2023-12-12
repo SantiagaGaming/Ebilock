@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.Events;
 public class LocationController : MonoBehaviour
 {
-    [SerializeField] private API _api;
     [SerializeField] private LocationText _locationText;
 
     private string _currentLocation = "hall";
@@ -15,10 +14,6 @@ public class LocationController : MonoBehaviour
     public void SetLocationtext(string text)
     {
         _locationText.SetLocationText(text);
-    }
-    public void ConnectionEstablished()
-    {
-        _api.ConnectionEstablished(_currentLocation);
     }
     public void SetLocation(string location)
     {

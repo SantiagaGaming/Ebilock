@@ -7,7 +7,6 @@ using UnityEngine.AI;
 
 public class WorkerController : MonoBehaviour
 {
-    [SerializeField] private API _api;
     [SerializeField] private Animator _anim;
     [SerializeField] private Transform _playerPos;
     private NavMeshAgent _navMeshAgent;
@@ -18,7 +17,7 @@ public class WorkerController : MonoBehaviour
     }
     private void Start()
     {
-        _api.SetLocationEvent += OnCheckState;
+        API.Instance.SetLocationEvent += OnCheckState;
     }
     void Update()
     {

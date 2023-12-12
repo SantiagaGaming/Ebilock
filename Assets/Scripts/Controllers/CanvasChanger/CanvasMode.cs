@@ -1,3 +1,4 @@
+using AosSdk.Core.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +7,18 @@ public class CanvasMode : MonoBehaviour
 {
     [SerializeField] private GameCanvasBase _deskCanvas;
     [SerializeField] private GameCanvasBase _vrCanvas;
+    [SerializeField] private AosSDKSettings _settings;
     private GameCanvasBase _currentCanvas;
     private void Start()
     {
-        _currentCanvas = InstanceHandler.Instance.ModeController.VrMode ? _vrCanvas : _deskCanvas;
-        if(_currentCanvas==_deskCanvas)
-            _vrCanvas.gameObject.SetActive(false);
-        else _deskCanvas.gameObject.SetActive(false);
+        ActivateCanvasByMode();
+    }
+    private void ActivateCanvasByMode()
+    {
+        _currentCanvas = _settings.launchMode == LaunchMode.Vr ? _vrCanvas : _deskCanvas;
+        bool active = _currentCanvas ? _deskCanvas : _vrCanvas;
+        _deskCanvas.gameObject.SetActive(active);
+        _vrCanvas.gameObject.SetActive(!active);
     }
     public void SetStartScreenText(string headerText, string commentText, string buttonText, NextButtonState state)
     {

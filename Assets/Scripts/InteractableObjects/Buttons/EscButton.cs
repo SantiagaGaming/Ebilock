@@ -7,7 +7,6 @@ public class EscButton : MonoBehaviour
 {
     public UnityAction EscClickEvent;
     [SerializeField] private InputActionProperty _menuAction;
-    [SerializeField] private API _api;
     private void OnEnable()
     {
         _menuAction.action.performed += OnShowMenu;

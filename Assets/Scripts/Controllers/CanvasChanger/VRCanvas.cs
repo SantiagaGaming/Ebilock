@@ -24,23 +24,19 @@ public class VRCanvas : GameCanvasBase
     }
     public override void SetExitText(string exitText, string warntext)
     {
-        InstanceHandler.Instance.MainMenuCanvas.SetExitText(exitText, warntext);
+
     }
     public override void SetMenuText(string headText, string commentText, string exitSureText)
     {
-        InstanceHandler.Instance.MainMenuCanvas.SetMenuText(headText, commentText, exitSureText);
+  
     }
     public override void SetLastScreenText(string headertext, string commentText)
     {
-        InstanceHandler.Instance.MainMenuCanvas.ShowCanvasByName("LastWindow");
-        InstanceHandler.Instance.MainMenuCanvas.SetText(headertext, commentText);
+      
     }
     public override void SetResultScreenText(string headertext, string commentText, string evalText)
     {
-        InstanceHandler.Instance.Teleporter.CanTeleport = false;
-        //InstanceHandler.Instance.Teleporter.TeleportToMenu();
-        InstanceHandler.Instance.MainMenuCanvas.ShowCanvasByName("LastWindow");
-        InstanceHandler.Instance.MainMenuCanvas.SetText(headertext, commentText, evalText);
+    
     }
     private void OnHideStartScreen(string value)
     {

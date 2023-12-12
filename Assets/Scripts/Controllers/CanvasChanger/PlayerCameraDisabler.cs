@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class PlayerCameraDisabler : MonoBehaviour
 {
+    [SerializeField] private GameObject _interactHelpers;
+    [SerializeField] private GameObject _menuCanvas;
     [SerializeField] private Image _knob;
     [SerializeField] private CursorManager _cursorManager;
     [SerializeField] private Zoom _zoom;
@@ -16,12 +18,14 @@ public class PlayerCameraDisabler : MonoBehaviour
         if(active)
         {
             _cursorManager.EnableCursor(false);
+            _interactHelpers.SetActive(true);
+            _menuCanvas.SetActive(false);
         }
         else if(!active)
         {
-            InstanceHandler.Instance.HelpTextController.HideReactionText();
-            InstanceHandler.Instance.HelpTextController.HideHelperText();
             _cursorManager.EnableCursor(true);
+            _interactHelpers.SetActive(false);
+            _menuCanvas.SetActive(true);
         }
         Player.Instance.CanMove = active;
         _zoom.CanZoom = active;

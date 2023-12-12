@@ -6,7 +6,6 @@ public class AOSObjectsHolder : MonoBehaviour
     private List<SceneObject> _aosSceneObjects = new List<SceneObject>();
     private List<PointObject> _aosPointObjects = new List<PointObject>();
     private List<ArmUIButton> _armPoints = new List<ArmUIButton>();
-    public bool CanTouch { get; set; } = true;
     public void AddSceneObject(SceneObject obj) => _aosSceneObjects.Add(obj);
     public void AddPointObject(PointObject obj) => _aosPointObjects.Add(obj);
     public void AddArmIUObject(ArmUIButton obj) => _armPoints.Add(obj);
