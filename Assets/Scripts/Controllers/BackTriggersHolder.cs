@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BackTriggersHoler : MonoBehaviour
+public class BackTriggersHolder : MonoBehaviour
 {
     [SerializeField] private BackFromRoomTrigger[] _backTriggers;
     private BackFromRoomTrigger _currentTrigger;

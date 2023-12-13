@@ -5,7 +5,7 @@ using UnityEngine;
 public class InstanceHandler : MonoBehaviour
 {
     [SerializeField] private AOSObjectsHolder _objectsHolder;
-    [SerializeField] private BackTriggersHoler _triggersHoler;
+    [SerializeField] private BackTriggersHolder _triggersHolder;
     public SceneAosObject SceneAosObject { get; set; }
     public string ActionToInvoke { get; set; }
     public ObjectWithAnimation PlaceAnimationObject { get; set; }
@@ -13,7 +13,7 @@ public class InstanceHandler : MonoBehaviour
     private BackButton _currentBackButton;
     public static InstanceHandler Instance;
     public AOSObjectsHolder AOSObjectsHolder => _objectsHolder;
-    public BackTriggersHoler BackTriggersHoler => _triggersHoler;
+    public BackTriggersHolder BackTriggersHoler => _triggersHolder;
     private void Awake()
     {
         if (Instance == null)

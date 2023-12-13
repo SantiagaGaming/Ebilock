@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlaceButtonsEventHandler : MonoBehaviour
 {
     [SerializeField] private AosActionsHandler _movingButtons;
-    [SerializeField] private BackTriggersHoler _backtriggers;
+    [SerializeField] private BackTriggersHolder _backtriggers;
     [SerializeField] private Ampermetr _amper;
     [SerializeField] private HelpTextController _helpTextController;
     private void Start()

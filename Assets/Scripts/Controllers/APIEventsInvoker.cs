@@ -21,10 +21,9 @@ public class APIEventsInvoker : MonoBehaviour
     [SerializeField] private PointerDevice _pointerDevice;
     [SerializeField] private MeasureController _measureController;
     [SerializeField] private MapImageButton _mapImageButton;
-    [SerializeField] private ModeController _modeController;
     [SerializeField] private HelpTextController _helpTextController;
     [SerializeField] private CanvasMode _canvasMode;
-    [SerializeField] private BackTriggersHoler _backTriggerHoler;
+    [SerializeField] private BackTriggersHolder _backTriggerHoler;
 
     private void OnEnable()
     {
