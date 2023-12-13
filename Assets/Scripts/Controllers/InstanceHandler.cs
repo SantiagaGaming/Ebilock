@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class InstanceHandler : MonoBehaviour
 {
-    public static InstanceHandler Instance;
+    [SerializeField] private AOSObjectsHolder _objectsHolder;
+    [SerializeField] private BackTriggersHoler _triggersHoler;
     public SceneAosObject SceneAosObject { get; set; }
+    public string ActionToInvoke { get; set; }
     public ObjectWithAnimation PlaceAnimationObject { get; set; }
     private List<ObjectWithAnimation> _animationObjectList = new List<ObjectWithAnimation>();
-
+    private BackButton _currentBackButton;
+    public static InstanceHandler Instance;
+    public AOSObjectsHolder AOSObjectsHolder => _objectsHolder;
+    public BackTriggersHoler BackTriggersHoler => _triggersHoler;
     private void Awake()
     {
         if (Instance == null)
@@ -25,5 +30,25 @@ public class InstanceHandler : MonoBehaviour
             item.PlayScriptableAnimationClose();
         }
         _animationObjectList.Clear();
+    }
+    public void SetCurrentBackButton(BackButton backButtonObject)
+    {
+        _currentBackButton = backButtonObject;
+    }
+    public BackButton GetCurrentBackButton()
+    {
+        if (_currentBackButton != null)
+            return _currentBackButton;
+        else return null;
+    }
+    public void EnableCurrentBackButton(bool value)
+    {
+        if (_currentBackButton != null)
+            _currentBackButton.EnableObject(value);
+    }
+    public void OnActivaBackButton(string text)
+    {
+        ActionToInvoke = text;
+        EnableCurrentBackButton(true);
     }
 }

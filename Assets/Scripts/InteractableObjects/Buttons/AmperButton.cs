@@ -1,39 +1,14 @@
-using System.Collections;
 using AosSdk.Core.PlayerModule.Pointer;
 using UnityEngine;
-public class AmperButton : BaseButton
+public class AmperButton : PlaceButton
 {
-    [SerializeField] protected Transform _amperPosition;
-    private bool _amper = false;
-
+    [SerializeField] private Transform _amperPosition;
     public override void OnClicked(InteractHand interactHand)
     {
         base.OnClicked(interactHand);
-        InstanceHandler.Instance.MovingButtonsController.HideAllButtons();
-        if (!_amper)
-        {
-            _amper = true;
-            InstanceHandler.Instance.MeasureButtonsActivator.ActivateButtonsWithList();
-        }
-        else
-        {
-            _amper = false;
-            StartCoroutine(DisableButtonsDelay());
-        }
-       InstanceHandler.Instance.AmperMetr.EnableAmper(_amperPosition);
- 
-    }
-    private void DisableMeasureButtons()
-    {
-        _amper = false;
-        InstanceHandler.Instance.ShupController.OnResetShupPosition();
-        InstanceHandler.Instance.MeasureButtonsActivator.DeactivateAllButtons();
-        InstanceHandler.Instance.PointerDevice.SetValue(1);
-    }
-    private IEnumerator DisableButtonsDelay()
-    {
-        yield return new WaitForSeconds(0.3f);
-        DisableMeasureButtons();
+        var amper = FindObjectOfType<Ampermetr>();
+        if (amper != null)
+            amper.EnableAmper(_amperPosition);
     }
 }
 

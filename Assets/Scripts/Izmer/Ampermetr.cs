@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public class Ampermetr : MonoBehaviour
 {
     [SerializeField] private GameObject _ampermetr;
+    [SerializeField] private MeasureButtonsActivator _measureButtonActivator;
+    [SerializeField] private ShupController _shupController;
+    [SerializeField] private PointerDevice _pointerDevice;
 
-    private void Start()
-    {
-        BackButton.OnBackButtonClick += OnDisableAmper;
-    }
     public void EnableAmper(Transform position)
     {
         var active = _ampermetr.activeSelf;
@@ -20,13 +20,14 @@ public class Ampermetr : MonoBehaviour
             _ampermetr.SetActive(true);
         }
         else
-        {
-            OnDisableAmper();
-        }
+            DisableAmper();
      
     }
-    public void OnDisableAmper()
+    public void DisableAmper()
     {
+        _shupController.ResetShupPosition();
+        _measureButtonActivator.DeactivateAllButtons();
+        _pointerDevice.SetValue(1);
         _ampermetr.SetActive(false);
     }
 }

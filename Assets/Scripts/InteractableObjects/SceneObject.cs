@@ -13,13 +13,13 @@ public class SceneObject : BaseObject
     [SerializeField] protected GameObject[] Visuals;
 
     private float _emmisionValue = 0.5f;
-    protected string HelperName;
+    public string HelperName { get; private set; }
     protected virtual void Start()
     {
         if (NonAOS)
             return;
         EnableObject(false);
-        InstanceHandler.Instance.AOSObjectsActivator.AddSceneObject(this);
+        InstanceHandler.Instance.AOSObjectsHolder.AddSceneObject(this);
     }
     public void SetHelperName(string value) => HelperName = value;
     public override void OnHoverIn(InteractHand interactHand)

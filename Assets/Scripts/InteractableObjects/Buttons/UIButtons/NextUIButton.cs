@@ -13,13 +13,13 @@ public class NextUIButton : NextButton
     {
         if (CurrentState == NextButtonState.Start)
         {
-            InstanceHandler.Instance.API.OnInvokeNavAction("next");
+           API.Instance.OnInvokeNavAction("next");
             NextButtonPressedEvent?.Invoke("next");
             Player.Instance.CanMove = false;
         }
         else if (CurrentState == NextButtonState.Fault)
         {
-            InstanceHandler.Instance.API.OnInvokeNavAction("start");
+         API.Instance.OnInvokeNavAction("start");
             NextButtonPressedEvent?.Invoke("start");
             Player.Instance.CanMove = true;
         }

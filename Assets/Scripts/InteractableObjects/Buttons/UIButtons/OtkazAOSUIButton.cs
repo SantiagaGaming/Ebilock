@@ -5,5 +5,5 @@ using UnityEngine;
 public class OtkazAOSUIButton : BaseUIButton
 {
     [SerializeField] private string _buttonId;
-    protected override void Click() => InstanceHandler.Instance.API.OnReasonInvoke(_buttonId);
+    protected override void Click() => API.Instance.OnReasonInvoke(_buttonId);
 }

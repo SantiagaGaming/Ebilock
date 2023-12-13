@@ -4,17 +4,16 @@ using AosSdk.Core.Utils;
 using AosSdk.Core.PlayerModule.Pointer;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 public class EnableImageButton : BaseButton
 {
-    public delegate void MapButtonClick();
-    public static event MapButtonClick MapButtonClickEvent;
+    public static Action MapButtonClickEvent;
     [SerializeField] private Transform _newSchemePos;
     private MapImageButton _mapImageButton;
     protected override void Start()
     {
         base.Start();
         BackButton.OnBackButtonClick += OnDisableMapImage;
-        _mapImageButton = InstanceHandler.Instance.MapImageButton;
         if (_newSchemePos != null)
             _newSchemePos.transform.parent = null;
     }

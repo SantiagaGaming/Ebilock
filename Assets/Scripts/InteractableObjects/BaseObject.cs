@@ -21,6 +21,7 @@ public abstract class BaseObject : MonoBehaviour, IClickAble, IHoverAble
         if (SceneAOSObject == null)
             return;
         SceneAOSObject.InvokeOnClick();
+        InstanceHandler.Instance.SceneAosObject = SceneAOSObject;
     }
     public string GetAOSName()
     {

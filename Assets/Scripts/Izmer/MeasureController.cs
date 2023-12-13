@@ -48,6 +48,6 @@ public class MeasureController : MonoBehaviour
             _measuretext = $"d_m_c43101:{_type}:{_blackValue}:{_redValue}:{_pointerValue}";
           
         }
-        _api.InvokeOnMeasure(_measuretext);
+        API.Instance.InvokeOnMeasure(_measuretext);
     }
 }

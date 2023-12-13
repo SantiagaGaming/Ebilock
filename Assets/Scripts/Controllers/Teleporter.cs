@@ -8,7 +8,6 @@ public class Teleporter : MonoBehaviour
 {
     public UnityAction<string> TeleportEndEvent;
     public bool CanTeleport { get; set; } = true;
-    [SerializeField] private API _api;
     [SerializeField] private Transform _hallFieldPosition;
     [SerializeField] private Transform _hallFeedPosition;
     [SerializeField] private Transform _hallDspPosition;

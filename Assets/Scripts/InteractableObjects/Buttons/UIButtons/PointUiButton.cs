@@ -7,7 +7,7 @@ public class PointUiButton : BaseUIButton
     private string _pointId;
     protected override void Click()
     {
-        InstanceHandler.Instance.API.OnDialogInvoke(_pointId);
+       API.Instance.OnDialogInvoke(_pointId);
     }
     public void SetButtonId(string id)
     {

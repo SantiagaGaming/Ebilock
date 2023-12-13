@@ -7,9 +7,11 @@ using UnityEngine.Events;
 public class MeasureButton : BaseButton
 {
     public SceneAosObject MeasureButtonObject => SceneAOSObject;
+    private ShupPositionChanger _shupPosChanger;
     public override void OnClicked(InteractHand interactHand)
     {
-        InstanceHandler.Instance.ShupPositionChanger.SetNewShupPositon(transform,  SceneAOSObject.ObjectId);
+        _shupPosChanger = FindObjectOfType<ShupPositionChanger>();
+        _shupPosChanger.SetNewShupPositon(transform,  SceneAOSObject.ObjectId);
     }
     public override void OnHoverIn(InteractHand interactHand)
     {

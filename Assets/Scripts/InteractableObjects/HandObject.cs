@@ -6,7 +6,7 @@ public class HandObject : MonoBehaviour, IHandObject
 {
     public virtual void HandAction()
     {
-        InstanceHandler.Instance.MovingButtonsController.HideAllButtons();
+       
     }
 }
 

@@ -9,7 +9,6 @@ public class BaseButton : SceneObject
     {
         base.OnHoverIn(interactHand);
         transform.localScale *= 1.2f;
-
     }
     public override void OnHoverOut(InteractHand interactHand)
     {

@@ -4,9 +4,11 @@ using UnityEngine;
 using AosSdk.Core.PlayerModule;
 using TMPro;
 using System.Linq;
+using System;
 
 public class MainMenuCanvas : BaseCanvas
 {
+    public Action LastScreenEvent;
     [SerializeField] private GameObject[] _allMenuScreens;
     [SerializeField] private GameObject _mainMenuScreen;
     [Space]
@@ -54,7 +56,7 @@ public class MainMenuCanvas : BaseCanvas
         _headerExitText.text = headText;
         _exitSureText.text = commentText;
         _evalText.text = evalText;
-        InstanceHandler.Instance.Teleporter.CanTeleport = false;
+        LastScreenEvent?.Invoke();
         _exitButton.SetActive(true);
     }
 

@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class BackFromMenuUIButton : BaseUIButton
 {
-    public delegate void BackButtonClick();
-    public static event BackButtonClick BackButtonClickEvent;
+    public static Action BackButtonClickEvent;
     [SerializeField] private bool _event;
     protected override void Click()
     {
         if(_event)
-        InstanceHandler.Instance.API.OnInvokeNavAction(InstanceHandler.Instance.BackButtonsActivator.ActionToInvoke);
+       API.Instance.OnInvokeNavAction(InstanceHandler.Instance.ActionToInvoke);
         BackButtonClickEvent?.Invoke();
     }
 }

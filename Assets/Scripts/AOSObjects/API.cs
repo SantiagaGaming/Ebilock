@@ -23,7 +23,6 @@ public class API : AosObjectBase
     public Action<string> DialogHeaderEvent;
     public Action<float> SetMeasureValueEvent;
     public Action<string> TeleportStartEvent;
-    public Action<string> SetNewLocationTextEvent;
     public Action<string> SetLocationEvent;
     public Action<string> SetLocationForFieldCollidersEvent;
     public Action<string> ActivateBackButtonEvent;
@@ -56,9 +55,10 @@ public class API : AosObjectBase
     [AosEvent(name: "Кнопка нажата")]
     public event AosEventHandlerWithAttribute OnDialogPoint;
     public static API Instance { get; private set; }
+    private string _currentLocation;
     private void Awake()
     {
-        if(Instance ==null)
+        if (Instance == null)
             Instance = this;
     }
     public void Teleport([AosParameter("Задать локацию для перемещения")] string location)
@@ -147,7 +147,7 @@ public class API : AosObjectBase
         SetLocationEvent?.Invoke(location);
         if (place.SelectToken("name") != null)
         {
-            SetNewLocationTextEvent?.Invoke(place.SelectToken("name").ToString());
+            _currentLocation = place.SelectToken("name").ToString();
         }
         ShowPlaceEvent?.Invoke();
         foreach (JObject item in data)

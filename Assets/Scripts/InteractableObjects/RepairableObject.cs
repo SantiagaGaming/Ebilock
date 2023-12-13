@@ -6,6 +6,6 @@ public class RepairableObject : MonoBehaviour,IToolObject
 {
     public virtual void ToolAction()
     {
-        InstanceHandler.Instance.MovingButtonsController.HideAllButtons();
+       
     }
 }
